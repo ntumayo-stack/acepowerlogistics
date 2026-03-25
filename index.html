@@ -27,17 +27,17 @@
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
     padding: 18px 48px;
-    background: rgba(250,252,251,0.92); backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
+    background: #0D1F17; backdrop-filter: none;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
   }
-  .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 16px; color: var(--green); letter-spacing: 0px; line-height: 1.2; }
-  .logo span { color: var(--gold); }
-  .logo small { display: block; font-size: 10px; font-weight: 400; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+  .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 16px; color: #fff; letter-spacing: 0px; line-height: 1.2; }
+  .logo span { color: var(--gold-light); }
+  .logo small { display: block; font-size: 10px; font-weight: 400; color: rgba(255,255,255,0.45); letter-spacing: 1px; text-transform: uppercase; }
   nav ul { list-style: none; display: flex; gap: 32px; }
-  nav ul a { font-size: 14px; color: var(--muted); text-decoration: none; transition: color .2s; }
-  nav ul a:hover { color: var(--green); }
-  .nav-cta { background: var(--green); color: #fff !important; padding: 9px 20px; border-radius: 8px; font-weight: 500 !important; }
-  .nav-cta:hover { background: var(--green-light) !important; }
+  nav ul a { font-size: 14px; color: rgba(255,255,255,0.6); text-decoration: none; transition: color .2s; }
+  nav ul a:hover { color: var(--gold-light); }
+  .nav-cta { background: var(--gold); color: #fff !important; padding: 9px 20px; border-radius: 8px; font-weight: 500 !important; }
+  .nav-cta:hover { background: var(--gold-light) !important; color: var(--dark) !important; }
 
   /* HERO */
   .hero {
@@ -237,8 +237,8 @@
   <ul>
     <li><a href="#how">How it works</a></li>
     <li><a href="#pricing">Pricing</a></li>
-    <li><a href="tools.html" style="color:var(--green);font-weight:500;">Duty Calculator</a></li>
-    <li><a href="https://tuumiza.com" target="_blank" style="color:var(--gold);font-weight:500;">Order from Europe ↗</a></li>
+    <li><a href="tools.html" style="color:rgba(255,255,255,0.7);font-weight:500;">Duty Calculator</a></li>
+    <li><a href="https://tuumiza.com" target="_blank" style="color:var(--gold-light);font-weight:500;">Order from Europe ↗</a></li>
     <li><a href="https://wa.me/250788405112" target="_blank" class="nav-cta">WhatsApp us</a></li>
   </ul>
 </nav>
