@@ -3,624 +3,950 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ACE POWER LOGISTICS — Online Customs Clearance · Kigali, Rwanda</title>
+<title>Customs Duty Calculator & File Submission — ACE POWER LOGISTICS</title>
+<meta name="description" content="Calculate Rwanda import duties and taxes instantly. Submit your customs declaration file online. ACE POWER LOGISTICS — licensed customs agent, Kigali.">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --green: #1A6B45;
-    --green-light: #2A9D6A;
-    --green-pale: #E8F5EF;
-    --gold: #C9952A;
-    --gold-light: #F0BC5A;
-    --dark: #0D1F17;
-    --text: #1C3028;
-    --muted: #5A7A6A;
-    --border: #C8DDD4;
-    --white: #FAFCFB;
-    --surface: #F2F8F5;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--text); overflow-x: hidden; }
+:root {
+  --green: #1A6B45;
+  --green-light: #2A9D6A;
+  --green-pale: #E8F5EF;
+  --gold: #C9952A;
+  --gold-light: #F0BC5A;
+  --dark: #0D1F17;
+  --text: #1C3028;
+  --muted: #5A7A6A;
+  --border: #C8DDD4;
+  --white: #FAFCFB;
+  --surface: #F2F8F5;
+  --red: #C0392B;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--text); }
 
-  /* NAV */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 18px 48px;
-    background: rgba(250,252,251,0.92); backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-  }
-  .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 16px; color: var(--green); letter-spacing: 0px; line-height: 1.2; }
-  .logo span { color: var(--gold); }
-  .logo small { display: block; font-size: 10px; font-weight: 400; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
-  nav ul { list-style: none; display: flex; gap: 32px; }
-  nav ul a { font-size: 14px; color: var(--muted); text-decoration: none; transition: color .2s; }
-  nav ul a:hover { color: var(--green); }
-  .nav-cta { background: var(--green); color: #fff !important; padding: 9px 20px; border-radius: 8px; font-weight: 500 !important; }
-  .nav-cta:hover { background: var(--green-light) !important; }
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 48px;
+  background: rgba(250,252,251,0.94); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px; color: var(--green); line-height: 1.2; text-decoration: none; display: block; }
+.logo span { color: var(--gold); }
+.logo small { display: block; font-size: 10px; font-weight: 400; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+.nav-links { display: flex; gap: 24px; align-items: center; list-style: none; }
+.nav-links a { font-size: 13px; color: var(--muted); text-decoration: none; transition: color .2s; }
+.nav-links a:hover { color: var(--green); }
+.nav-back { font-size: 13px; color: var(--green); text-decoration: none; display: flex; align-items: center; gap: 6px; }
 
-  /* HERO */
-  .hero {
-    min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr;
-    align-items: center; padding: 120px 48px 80px; gap: 64px;
-    position: relative; overflow: hidden;
-  }
-  .hero::before {
-    content: ''; position: absolute; top: -200px; right: -200px;
-    width: 700px; height: 700px;
-    background: radial-gradient(circle, rgba(42,157,106,0.08) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: var(--green-pale); border: 1px solid #A8D5BC;
-    border-radius: 100px; padding: 6px 14px;
-    font-size: 12px; font-weight: 500; color: var(--green);
-    margin-bottom: 28px; animation: fadeUp .6s ease both;
-  }
-  .badge-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green-light); animation: pulse 2s ease-in-out infinite; }
-  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.6;transform:scale(1.3)} }
-  h1 {
-    font-family: 'Syne', sans-serif; font-weight: 800;
-    font-size: clamp(36px, 4.5vw, 56px); line-height: 1.08; letter-spacing: -1.5px;
-    color: var(--dark); margin-bottom: 24px; animation: fadeUp .6s .1s ease both;
-  }
-  h1 em { font-style: normal; color: var(--green); }
-  .underline-gold { position: relative; white-space: nowrap; }
-  .underline-gold::after {
-    content: ''; position: absolute; left: 0; bottom: -4px; right: 0; height: 3px;
-    background: var(--gold-light); border-radius: 2px;
-  }
-  .hero-desc { font-size: 17px; font-weight: 300; line-height: 1.7; color: var(--muted); max-width: 480px; margin-bottom: 40px; animation: fadeUp .6s .2s ease both; }
-  .hero-actions { display: flex; gap: 16px; align-items: center; animation: fadeUp .6s .3s ease both; }
-  .btn-primary {
-    background: var(--green); color: #fff; padding: 14px 28px; border-radius: 10px;
-    font-size: 15px; font-weight: 500; text-decoration: none;
-    display: inline-flex; align-items: center; gap: 8px; transition: background .2s, transform .15s;
-  }
-  .btn-primary:hover { background: var(--green-light); transform: translateY(-1px); }
-  .btn-secondary {
-    color: var(--green); font-size: 15px; font-weight: 500; text-decoration: none;
-    display: inline-flex; align-items: center; gap: 6px;
-    border-bottom: 1.5px solid var(--green-pale); padding-bottom: 2px; transition: border-color .2s;
-  }
-  .btn-secondary:hover { border-color: var(--green); }
+/* HERO STRIP */
+.hero-strip {
+  padding: 100px 48px 56px;
+  background: var(--dark);
+  text-align: center;
+}
+.hero-strip h1 {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: clamp(28px, 4vw, 48px); letter-spacing: -1.5px;
+  color: #fff; margin-bottom: 14px; line-height: 1.1;
+}
+.hero-strip h1 span { color: var(--gold-light); }
+.hero-strip p { font-size: 16px; font-weight: 300; color: rgba(255,255,255,0.55); max-width: 560px; margin: 0 auto 28px; line-height: 1.7; }
+.tab-switcher {
+  display: inline-flex; background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 4px; gap: 4px;
+}
+.tab-btn {
+  padding: 10px 28px; border-radius: 9px; border: none; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+  transition: .2s; background: transparent; color: rgba(255,255,255,0.5);
+}
+.tab-btn.active { background: var(--green); color: #fff; }
 
-  /* STATUS CARD */
-  .hero-visual { animation: fadeUp .6s .2s ease both; }
-  .status-card { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 28px; box-shadow: 0 4px 40px rgba(26,107,69,0.08); }
-  .status-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-  .status-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
-  .status-id { font-size: 12px; color: var(--muted); background: var(--surface); padding: 4px 10px; border-radius: 6px; }
-  .dossier-info { background: var(--surface); border-radius: 10px; padding: 16px; margin-bottom: 20px; }
-  .dossier-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; margin-bottom: 8px; }
-  .dossier-row:last-child { margin-bottom: 0; }
-  .dossier-label { color: var(--muted); }
-  .dossier-value { font-weight: 500; color: var(--text); }
-  .dossier-value.gold { color: var(--gold); }
-  .steps-track { margin-bottom: 20px; }
-  .step-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--surface); }
-  .step-item:last-child { border-bottom: none; }
-  .step-dot { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 11px; font-weight: 600; }
-  .step-dot.done { background: var(--green); color: #fff; }
-  .step-dot.active { background: #fff; border: 2px solid var(--green); color: var(--green); animation: ring 2s ease-in-out infinite; }
-  .step-dot.pending { background: var(--surface); color: var(--muted); border: 1.5px solid var(--border); }
-  @keyframes ring { 0%,100%{box-shadow:0 0 0 0 rgba(26,107,69,0.3)} 50%{box-shadow:0 0 0 6px rgba(26,107,69,0)} }
-  .step-label { font-size: 13px; flex: 1; }
-  .step-label.done { color: var(--muted); text-decoration: line-through; }
-  .step-label.active { font-weight: 500; color: var(--green); }
-  .step-label.pending { color: var(--border); }
-  .step-time { font-size: 11px; color: var(--muted); }
-  .canal-badge { display: inline-flex; align-items: center; gap: 6px; background: #E8F5EF; border: 1px solid #A8D5BC; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; color: var(--green); }
+/* MAIN CONTENT */
+.main { max-width: 860px; margin: 0 auto; padding: 48px 24px 80px; }
 
-  /* STATS */
-  .stats-bar { background: var(--dark); padding: 24px 48px; display: flex; }
-  .stat-item { flex: 1; padding: 0 32px; text-align: center; border-right: 1px solid rgba(255,255,255,0.08); }
-  .stat-item:first-child { padding-left: 0; }
-  .stat-item:last-child { border-right: none; }
-  .stat-num { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; color: var(--gold-light); letter-spacing: -1px; }
-  .stat-label { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 4px; }
+/* PANELS */
+.panel { display: none; }
+.panel.active { display: block; }
 
-  /* SECTIONS */
-  .section { padding: 96px 48px; }
-  .section-label { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
-  h2 { font-family: 'Syne', sans-serif; font-size: clamp(28px, 3.5vw, 42px); font-weight: 800; letter-spacing: -1px; color: var(--dark); margin-bottom: 16px; line-height: 1.1; }
-  .section-desc { font-size: 16px; font-weight: 300; color: var(--muted); max-width: 520px; line-height: 1.7; margin-bottom: 56px; }
+/* ── CALCULATOR ── */
+.calc-card {
+  background: #fff; border: 1px solid var(--border); border-radius: 16px;
+  overflow: hidden; box-shadow: 0 2px 24px rgba(26,107,69,0.06);
+}
+.calc-header {
+  background: var(--green-pale); padding: 20px 28px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 12px;
+}
+.calc-header-icon {
+  width: 36px; height: 36px; background: var(--green); border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+}
+.calc-header h2 { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; color: var(--dark); }
+.calc-header p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.calc-body { padding: 28px; }
 
-  /* HOW IT WORKS */
-  .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; }
-  .steps-grid::before { content: ''; position: absolute; top: 28px; left: 10%; right: 10%; height: 1px; background: linear-gradient(to right, transparent, var(--border), var(--border), transparent); z-index: 0; }
-  .how-step { text-align: center; padding: 0 16px; position: relative; z-index: 1; }
-  .step-num { width: 56px; height: 56px; border-radius: 50%; background: var(--white); border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px; color: var(--green); margin: 0 auto 20px; }
-  .how-step:first-child .step-num { background: var(--green); color: #fff; border-color: var(--green); }
-  .step-h { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; margin-bottom: 8px; color: var(--dark); }
-  .step-p { font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.6; }
+.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field.full { grid-column: 1 / -1; }
+label { font-size: 12px; font-weight: 600; color: var(--text); letter-spacing: .3px; text-transform: uppercase; }
+input[type="number"], input[type="text"], select, textarea {
+  padding: 11px 14px; border: 1.5px solid var(--border); border-radius: 8px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--text);
+  background: var(--white); transition: border-color .2s, box-shadow .2s;
+  appearance: none; -webkit-appearance: none;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none; border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(26,107,69,0.1);
+}
+input::placeholder, textarea::placeholder { color: #aac4b8; }
+select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235A7A6A' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; }
 
-  /* PRICING */
-  .pricing-section { background: var(--surface); }
+.hs-hint { font-size: 11px; color: var(--muted); margin-top: 3px; }
+.hs-hint a { color: var(--green); }
 
-  .currency-toggle {
-    display: inline-flex; border: 1.5px solid var(--border);
-    border-radius: 10px; overflow: hidden; margin-bottom: 40px;
-  }
-  .currency-btn {
-    padding: 8px 22px; font-size: 13px; font-weight: 500;
-    background: transparent; border: none; cursor: pointer;
-    color: var(--muted); transition: .2s; font-family: 'DM Sans', sans-serif;
-  }
-  .currency-btn.active { background: var(--green); color: #fff; }
+.calc-btn {
+  width: 100%; padding: 14px; background: var(--green); color: #fff;
+  border: none; border-radius: 10px; font-family: 'Syne', sans-serif;
+  font-size: 15px; font-weight: 700; cursor: pointer; transition: background .2s, transform .1s;
+  margin-top: 4px;
+}
+.calc-btn:hover { background: var(--green-light); transform: translateY(-1px); }
+.calc-btn:active { transform: none; }
 
-  .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 960px; }
-  .price-card { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 28px; transition: transform .2s, box-shadow .2s; }
-  .price-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(26,107,69,0.1); }
-  .price-card.featured { border-color: var(--green); border-width: 1.5px; background: linear-gradient(160deg, #fff 60%, var(--green-pale)); }
-  .featured-tag { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--green); background: var(--green-pale); padding: 4px 10px; border-radius: 20px; display: inline-block; margin-bottom: 16px; }
-  .price-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 18px; color: var(--dark); margin-bottom: 6px; }
-  .price-desc { font-size: 13px; color: var(--muted); margin-bottom: 20px; line-height: 1.5; }
+/* RESULTS */
+.result-box {
+  margin-top: 24px; border-radius: 12px; overflow: hidden;
+  border: 1.5px solid var(--green); display: none;
+  animation: slideIn .3s ease;
+}
+@keyframes slideIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+.result-box.show { display: block; }
+.result-header {
+  background: var(--green); padding: 14px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.result-header span { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.8); letter-spacing: 1px; text-transform: uppercase; }
+.result-ref { font-size: 11px; color: rgba(255,255,255,0.5); }
+.result-body { background: var(--white); padding: 20px; }
+.result-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 0; border-bottom: 1px solid var(--surface);
+  font-size: 14px;
+}
+.result-row:last-child { border-bottom: none; }
+.result-row .label { color: var(--muted); }
+.result-row .val { font-weight: 500; color: var(--text); text-align: right; }
+.result-row .val small { display: block; font-size: 11px; color: var(--muted); font-weight: 400; }
+.result-total {
+  background: var(--dark); padding: 16px 20px; margin-top: 0;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.result-total .tl { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.6); }
+.result-total .tv {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: 22px; color: var(--gold-light); text-align: right;
+}
+.result-total .tv small { display: block; font-size: 12px; color: rgba(255,255,255,0.4); font-weight: 400; }
 
-  .price-main { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 30px; color: var(--dark); letter-spacing: -1px; line-height: 1.15; }
-  .price-sub { font-size: 16px; color: var(--muted); font-weight: 400; }
-  .price-rwf { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 14px; color: var(--green); margin-top: 4px; display: none; }
-  body.show-rwf .price-rwf { display: block; }
+.result-warning {
+  background: #FEF3E2; border: 1px solid #F5C97A; border-radius: 8px;
+  padding: 12px 16px; margin: 16px 20px 0; font-size: 12px; color: #7A4F00; line-height: 1.6;
+}
+.result-cta {
+  padding: 16px 20px; background: var(--green-pale);
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.result-cta p { font-size: 13px; color: var(--green); line-height: 1.5; }
+.result-cta p strong { display: block; font-weight: 600; }
+.result-cta a {
+  white-space: nowrap; background: var(--green); color: #fff;
+  padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 500;
+  text-decoration: none; display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+}
 
-  .price-note { font-size: 12px; color: var(--muted); margin: 6px 0 24px; }
-  .price-features { list-style: none; margin-bottom: 28px; }
-  .price-features li { font-size: 13px; color: var(--text); padding: 7px 0; border-bottom: 1px solid var(--surface); display: flex; align-items: center; gap: 8px; }
-  .price-features li::before { content: '✓'; color: var(--green); font-weight: 600; flex-shrink: 0; }
-  .btn-card { display: block; text-align: center; padding: 12px; border-radius: 8px; font-size: 14px; font-weight: 500; text-decoration: none; transition: .2s; }
-  .btn-card-outline { border: 1.5px solid var(--green); color: var(--green); }
-  .btn-card-outline:hover { background: var(--green-pale); }
-  .btn-card-filled { background: var(--green); color: #fff; }
-  .btn-card-filled:hover { background: var(--green-light); }
-  .price-note-global { margin-top: 24px; font-size: 12px; color: var(--muted); }
+/* channel badge */
+.ch-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600;
+}
+.ch-green { background: #E8F5EF; color: var(--green); }
+.ch-yellow { background: #FEF9E7; color: #7A6500; }
+.ch-red { background: #FDEDEC; color: var(--red); }
 
-  /* DOCS */
-  .docs-section { background: var(--white); }
-  .docs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
-  .doc-list { display: flex; flex-direction: column; gap: 12px; }
-  .doc-item { display: flex; align-items: flex-start; gap: 14px; background: var(--surface); border-radius: 10px; padding: 16px; border: 1px solid transparent; transition: border-color .2s; }
-  .doc-item:hover { border-color: var(--border); }
-  .doc-icon { width: 36px; height: 36px; border-radius: 8px; background: var(--green-pale); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
-  .doc-name { font-size: 14px; font-weight: 500; color: var(--dark); margin-bottom: 2px; }
-  .doc-note { font-size: 12px; color: var(--muted); }
-  .doc-req { font-size: 10px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; margin-left: auto; flex-shrink: 0; }
-  .req-always { background: #FEF3E2; color: #A56B00; }
-  .req-sometimes { background: var(--green-pale); color: var(--green); }
-  .info-box { background: var(--dark); color: #fff; border-radius: 16px; padding: 36px; }
-  .info-box h3 { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; margin-bottom: 16px; color: var(--gold-light); letter-spacing: -0.5px; }
-  .info-box p { font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.6); margin-bottom: 20px; }
-  .info-point { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 12px; }
-  .info-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold-light); margin-top: 6px; flex-shrink: 0; }
-  .info-point span { font-size: 13px; color: rgba(255,255,255,0.75); line-height: 1.6; }
+/* SEO INFO STRIP */
+.info-strip {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px 24px; margin-top: 20px;
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 16px;
+}
+.info-item h4 { font-size: 12px; font-weight: 600; color: var(--dark); margin-bottom: 4px; text-transform: uppercase; letter-spacing: .5px; }
+.info-item p { font-size: 12px; color: var(--muted); line-height: 1.6; }
 
-  /* CTA */
-  .cta-section { background: var(--green); padding: 80px 48px; text-align: center; }
-  .cta-section h2 { color: #fff; margin-bottom: 16px; }
-  .cta-section p { color: rgba(255,255,255,0.7); font-size: 16px; margin-bottom: 36px; font-weight: 300; }
-  .btn-white { background: #fff; color: var(--green); padding: 16px 36px; border-radius: 10px; font-size: 15px; font-weight: 600; text-decoration: none; display: inline-block; transition: .2s; }
-  .btn-white:hover { background: var(--green-pale); transform: translateY(-2px); }
+/* ── SUBMISSION FORM ── */
+.form-card {
+  background: #fff; border: 1px solid var(--border); border-radius: 16px;
+  overflow: hidden; box-shadow: 0 2px 24px rgba(26,107,69,0.06);
+}
+.form-header {
+  background: var(--dark); padding: 20px 28px;
+  display: flex; align-items: center; gap: 12px;
+}
+.form-header h2 { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; color: #fff; }
+.form-header p { font-size: 12px; color: rgba(255,255,255,0.45); margin-top: 2px; }
 
-  /* FOOTER */
-  footer { background: var(--dark); padding: 40px 48px; display: flex; justify-content: space-between; align-items: center; }
-  .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 16px; color: #fff; line-height: 1.2; }
-  .footer-logo span { color: var(--gold-light); }
-  .footer-logo small { display: block; font-size: 10px; font-weight: 400; color: rgba(255,255,255,0.35); letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
-  footer p { font-size: 12px; color: rgba(255,255,255,0.3); }
-  footer nav { display: flex; gap: 24px; }
-  footer nav a { font-size: 12px; color: rgba(255,255,255,0.4); text-decoration: none; }
-  footer nav a:hover { color: rgba(255,255,255,0.8); }
+.form-steps {
+  display: flex; gap: 0; border-bottom: 1px solid var(--border);
+  background: var(--surface); overflow-x: auto;
+}
+.form-step {
+  flex: 1; min-width: 120px; padding: 14px 16px; text-align: center;
+  font-size: 12px; font-weight: 500; color: var(--muted);
+  border-bottom: 2px solid transparent; cursor: pointer; transition: .2s;
+  white-space: nowrap;
+}
+.form-step.active { color: var(--green); border-bottom-color: var(--green); background: #fff; }
+.form-step.done { color: var(--green); }
+.form-step .step-no {
+  width: 20px; height: 20px; border-radius: 50%; display: inline-flex;
+  align-items: center; justify-content: center; font-size: 10px; font-weight: 700;
+  background: var(--border); color: var(--muted); margin-bottom: 4px;
+  transition: .2s;
+}
+.form-step.active .step-no { background: var(--green); color: #fff; }
+.form-step.done .step-no { background: var(--green); color: #fff; }
 
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.form-section { padding: 28px; display: none; }
+.form-section.active { display: block; }
 
-  @media (max-width: 768px) {
-    .hero { grid-template-columns: 1fr; padding: 100px 24px 60px; }
-    .hero-visual { display: none; }
-    .stats-bar { padding: 24px; flex-wrap: wrap; }
-    .stat-item { min-width: 50%; padding: 12px 0; }
-    .section { padding: 60px 24px; }
-    .steps-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
-    .pricing-grid { grid-template-columns: 1fr; }
-    .docs-grid { grid-template-columns: 1fr; }
-    nav { padding: 16px 24px; }
-    nav ul { display: none; }
-    footer { flex-direction: column; gap: 20px; text-align: center; }
-  }
+.section-title {
+  font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700;
+  color: var(--dark); margin-bottom: 6px;
+}
+.section-subtitle { font-size: 13px; color: var(--muted); margin-bottom: 24px; line-height: 1.5; }
+
+.upload-zone {
+  border: 2px dashed var(--border); border-radius: 10px; padding: 28px;
+  text-align: center; cursor: pointer; transition: .2s; background: var(--surface);
+  position: relative;
+}
+.upload-zone:hover { border-color: var(--green); background: var(--green-pale); }
+.upload-zone input[type="file"] {
+  position: absolute; inset: 0; opacity: 0; cursor: pointer;
+  width: 100%; height: 100%;
+}
+.upload-icon { width: 40px; height: 40px; background: var(--green-pale); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; }
+.upload-zone h4 { font-size: 14px; font-weight: 600; color: var(--dark); margin-bottom: 4px; }
+.upload-zone p { font-size: 12px; color: var(--muted); }
+.upload-zone .formats { margin-top: 8px; font-size: 11px; color: var(--border); }
+
+.file-list { margin-top: 12px; display: flex; flex-direction: column; gap: 8px; }
+.file-item {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--green-pale); border: 1px solid #A8D5BC;
+  border-radius: 8px; padding: 10px 14px; font-size: 13px;
+}
+.file-item svg { color: var(--green); flex-shrink: 0; }
+.file-item span { flex: 1; color: var(--text); }
+.file-item small { color: var(--muted); font-size: 11px; }
+.file-remove { background: none; border: none; cursor: pointer; color: var(--muted); padding: 2px; }
+
+.doc-checklist { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.doc-check-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px; border-radius: 8px; border: 1.5px solid var(--border);
+  cursor: pointer; transition: .2s; background: var(--white);
+}
+.doc-check-item:hover { border-color: var(--green-light); background: var(--green-pale); }
+.doc-check-item.checked { border-color: var(--green); background: var(--green-pale); }
+.doc-check-item input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--green); flex-shrink: 0; }
+.doc-check-label { font-size: 13px; font-weight: 500; color: var(--text); }
+.doc-check-note { font-size: 11px; color: var(--muted); display: block; margin-top: 1px; }
+.doc-badge { margin-left: auto; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; padding: 2px 8px; border-radius: 4px; flex-shrink: 0; }
+.badge-req { background: #FEF3E2; color: #A56B00; }
+.badge-opt { background: var(--green-pale); color: var(--green); }
+
+.form-nav {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 20px 28px; background: var(--surface); border-top: 1px solid var(--border);
+}
+.btn-prev {
+  padding: 11px 24px; border: 1.5px solid var(--border); border-radius: 8px;
+  background: transparent; font-family: 'DM Sans', sans-serif; font-size: 14px;
+  color: var(--muted); cursor: pointer; transition: .2s;
+}
+.btn-prev:hover { border-color: var(--green); color: var(--green); }
+.btn-next {
+  padding: 11px 28px; background: var(--green); color: #fff;
+  border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif;
+  font-size: 14px; font-weight: 500; cursor: pointer; transition: .2s;
+  display: flex; align-items: center; gap: 8px;
+}
+.btn-next:hover { background: var(--green-light); }
+
+.summary-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;
+}
+.summary-item {
+  background: var(--surface); border-radius: 8px; padding: 14px 16px;
+  border: 1px solid var(--border);
+}
+.summary-item .s-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
+.summary-item .s-val { font-size: 14px; font-weight: 500; color: var(--dark); }
+
+.whatsapp-submit {
+  width: 100%; padding: 16px; background: #25D366; color: #fff;
+  border: none; border-radius: 10px; font-family: 'Syne', sans-serif;
+  font-size: 16px; font-weight: 700; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  transition: background .2s, transform .1s; text-decoration: none;
+}
+.whatsapp-submit:hover { background: #1ebe5c; transform: translateY(-1px); }
+
+.success-box {
+  text-align: center; padding: 40px 28px; display: none;
+}
+.success-box.show { display: block; animation: slideIn .4s ease; }
+.success-icon {
+  width: 64px; height: 64px; background: var(--green-pale); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;
+}
+.success-box h3 { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: var(--dark); margin-bottom: 10px; }
+.success-box p { font-size: 14px; color: var(--muted); max-width: 360px; margin: 0 auto; line-height: 1.7; }
+
+/* PROGRESS BAR */
+.progress-bar { height: 3px; background: var(--border); }
+.progress-fill { height: 100%; background: var(--green); transition: width .4s ease; }
+
+/* MISC */
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.radio-group { display: flex; gap: 10px; flex-wrap: wrap; }
+.radio-opt {
+  flex: 1; min-width: 100px; border: 1.5px solid var(--border); border-radius: 8px;
+  padding: 10px 14px; cursor: pointer; transition: .2s; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+}
+.radio-opt:hover { border-color: var(--green-light); }
+.radio-opt.selected { border-color: var(--green); background: var(--green-pale); }
+.radio-opt input { display: none; }
+.radio-opt .ro-label { font-size: 13px; font-weight: 500; color: var(--text); }
+.radio-opt .ro-sub { font-size: 11px; color: var(--muted); }
+
+@media (max-width: 640px) {
+  nav { padding: 14px 20px; }
+  .hero-strip { padding: 90px 20px 40px; }
+  .main { padding: 32px 16px 60px; }
+  .field-grid, .field-row, .summary-grid { grid-template-columns: 1fr; }
+  .info-strip { grid-template-columns: 1fr; }
+  .result-cta { flex-direction: column; }
+}
 </style>
 </head>
 <body>
 
 <nav>
-  <div class="logo">ACE POWER <span>LOGISTICS</span><small>Online Customs Clearance</small></div>
-  <ul>
-    <li><a href="#how">How it works</a></li>
-    <li><a href="#pricing">Pricing</a></li>
-    <li><a href="#documents">Documents</a></li>
-    <li><a href="https://tuumiza.com" target="_blank" style="color:var(--gold);font-weight:500;">Order from Europe ↗</a></li>
-    <li><a href="https://wa.me/250788405112" target="_blank" class="nav-cta">WhatsApp us</a></li>
+  <a href="index.html" class="logo">ACE POWER <span>LOGISTICS</span><small>Online Customs Clearance</small></a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="nav-back">← Back to main site</a></li>
+    <li><a href="https://wa.me/250788405112" target="_blank" style="color:var(--green);font-weight:500;">+250 788 405 112</a></li>
   </ul>
 </nav>
 
 <!-- HERO -->
-<section class="hero">
-  <div>
-    <div class="hero-badge">
-      <div class="badge-dot"></div>
-      Licensed by RRA — Rwanda Revenue Authority
-    </div>
-    <h1>
-      Clear your<br>
-      goods through<br>
-      customs <em><span class="underline-gold">online</span></em>,<br>
-      from Kigali
-    </h1>
-    <p class="hero-desc">
-      Submit your file, track your clearance in real time, 
-      and get your release notice — fast, transparent, stress-free.
-    </p>
-    <div class="hero-actions">
-      <a href="#pricing" class="btn-primary">
-        Get started
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-      <a href="#how" class="btn-secondary">
-        See how it works
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-    </div>
-  </div>
-
-  <div class="hero-visual">
-    <div class="status-card">
-      <div class="status-header">
-        <div class="status-title">File tracking</div>
-        <div class="status-id">REF-2024-00847</div>
-      </div>
-      <div class="dossier-info">
-        <div class="dossier-row">
-          <span class="dossier-label">Goods</span>
-          <span class="dossier-value">IT Equipment</span>
-        </div>
-        <div class="dossier-row">
-          <span class="dossier-label">CIF value</span>
-          <span class="dossier-value">$4,800 · RWF 6,480,000</span>
-        </div>
-        <div class="dossier-row">
-          <span class="dossier-label">Duties calculated</span>
-          <span class="dossier-value gold">$612 · RWF 826,200</span>
-        </div>
-        <div class="dossier-row">
-          <span class="dossier-label">RRA channel</span>
-          <span class="canal-badge"><span style="width:6px;height:6px;border-radius:50%;background:#1A6B45;display:inline-block"></span>Green channel</span>
-        </div>
-      </div>
-      <div class="steps-track">
-        <div class="step-item">
-          <div class="step-dot done">✓</div>
-          <div class="step-label done">Documents received</div>
-          <div class="step-time">9:14 am</div>
-        </div>
-        <div class="step-item">
-          <div class="step-dot done">✓</div>
-          <div class="step-label done">Verification &amp; quote</div>
-          <div class="step-time">10:02 am</div>
-        </div>
-        <div class="step-item">
-          <div class="step-dot done">✓</div>
-          <div class="step-label done">Payment confirmed</div>
-          <div class="step-time">10:45 am</div>
-        </div>
-        <div class="step-item">
-          <div class="step-dot active">→</div>
-          <div class="step-label active">Filing in progress (ASCYCUDA)</div>
-          <div class="step-time">In progress</div>
-        </div>
-        <div class="step-item">
-          <div class="step-dot pending">5</div>
-          <div class="step-label pending">Release notice (BAE)</div>
-          <div class="step-time"></div>
-        </div>
-      </div>
-      <div style="text-align:center;font-size:12px;color:var(--muted);">
-        Estimated release in <strong style="color:var(--green)">~4 hours</strong>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- STATS -->
-<div class="stats-bar">
-  <div class="stat-item">
-    <div class="stat-num">24h</div>
-    <div class="stat-label">Average green channel lead time</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-num">100%</div>
-    <div class="stat-label">Fully online process</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-num">EAC</div>
-    <div class="stat-label">Exemptions handled</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-num">RRA</div>
-    <div class="stat-label">Licensed customs agent</div>
+<div class="hero-strip">
+  <h1>Your customs tools,<br><span>all in one place</span></h1>
+  <p>Calculate your import duties instantly, then submit your clearance file — without leaving this page.</p>
+  <div class="tab-switcher">
+    <button class="tab-btn active" onclick="switchTab('calc', this)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:6px"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>
+      Duty Calculator
+    </button>
+    <button class="tab-btn" onclick="switchTab('form', this)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:6px"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Submit a File
+    </button>
   </div>
 </div>
 
-<!-- HOW IT WORKS -->
-<section class="section" id="how">
-  <div class="section-label">Process</div>
-  <h2>Done in 4 simple steps</h2>
-  <p class="section-desc">
-    From document submission to collecting your goods — we handle everything. You track every step in real time.
-  </p>
-  <div class="steps-grid">
-    <div class="how-step">
-      <div class="step-num">1</div>
-      <div class="step-h">Submit your documents</div>
-      <p class="step-p">Commercial invoice, packing list, bill of lading or airway bill — uploaded directly from your phone.</p>
-    </div>
-    <div class="how-step">
-      <div class="step-num">2</div>
-      <div class="step-h">Receive your quote</div>
-      <p class="step-p">We calculate your RRA duties, 18% VAT, and any EAC or AfCFTA exemptions you qualify for. Quote within 2 hours.</p>
-    </div>
-    <div class="how-step">
-      <div class="step-num">3</div>
-      <div class="step-h">Pay online</div>
-      <p class="step-p">MTN MoMo, Airtel Money, or bank transfer. Secure payment with instant confirmation.</p>
-    </div>
-    <div class="how-step">
-      <div class="step-num">4</div>
-      <div class="step-h">Get your release notice</div>
-      <p class="step-p">We file on ASCYCUDA and send you the BAE the moment RRA grants clearance.</p>
-    </div>
-  </div>
-</section>
+<div class="main">
 
-<!-- PRICING -->
-<section class="section pricing-section" id="pricing">
-  <div class="section-label">Pricing</div>
-  <h2>Clear prices, no surprises</h2>
-  <p class="section-desc">
-    Every shipment is different. Our fees reflect the real complexity of your operation.
-  </p>
-
-  <div class="currency-toggle">
-    <button class="currency-btn active" onclick="setCurrency('usd', this)">USD ($)</button>
-    <button class="currency-btn" onclick="setCurrency('rwf', this)">RWF (RWF)</button>
-  </div>
-
-  <div class="pricing-grid">
-    <!-- Standard -->
-    <div class="price-card">
-      <div class="price-name">Standard declaration</div>
-      <div class="price-desc">Straightforward import, green channel, single supplier, unrestricted goods.</div>
-      <div class="price-main">$25 <span class="price-sub">– $40</span></div>
-      <div class="price-rwf">RWF 33,750 – RWF 54,000</div>
-      <div class="price-note">per file</div>
-      <ul class="price-features">
-        <li>Single supplier invoice</li>
-        <li>Duties &amp; VAT calculation included</li>
-        <li>Real-time file tracking</li>
-        <li>BAE sent by email &amp; SMS</li>
-      </ul>
-      <a href="https://wa.me/250788405112?text=Hello%20ACE%20POWER%20LOGISTICS%2C%20I%20would%20like%20to%20submit%20a%20standard%20customs%20declaration%20file." target="_blank" class="btn-card btn-card-outline">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display:inline;vertical-align:middle;margin-right:6px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.529 5.845L.057 23.522a.5.5 0 0 0 .617.63l5.796-1.516A11.955 11.955 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.9 0-3.679-.524-5.2-1.435l-.372-.221-3.862 1.011 1.03-3.752-.242-.386A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
-        WhatsApp us
-      </a>
-    </div>
-
-    <!-- Complex -->
-    <div class="price-card featured">
-      <div class="featured-tag">Most requested</div>
-      <div class="price-name">Complex declaration</div>
-      <div class="price-desc">Suspensive regimes, EAC/AfCFTA exemptions, goods requiring special permits.</div>
-      <div class="price-main">$60 <span class="price-sub">– $120</span></div>
-      <div class="price-rwf">RWF 81,000 – RWF 162,000</div>
-      <div class="price-note">per file</div>
-      <ul class="price-features">
-        <li>Bonded warehouse &amp; transit regimes</li>
-        <li>Special permit management</li>
-        <li>COMESA / AfCFTA exemptions</li>
-        <li>Customs advisory included</li>
-        <li>Priority processing</li>
-      </ul>
-      <a href="https://wa.me/250788405112?text=Hello%20ACE%20POWER%20LOGISTICS%2C%20I%20need%20help%20with%20a%20complex%20customs%20declaration%20(suspensive%20regime%20or%20exemption)." target="_blank" class="btn-card btn-card-filled">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display:inline;vertical-align:middle;margin-right:6px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.529 5.845L.057 23.522a.5.5 0 0 0 .617.63l5.796-1.516A11.955 11.955 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.9 0-3.679-.524-5.2-1.435l-.372-.221-3.862 1.011 1.03-3.752-.242-.386A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
-        WhatsApp us
-      </a>
-    </div>
-
-    <!-- Monthly -->
-    <div class="price-card">
-      <div class="price-name">SME monthly plan</div>
-      <div class="price-desc">For businesses with regular import or export flows who need a reliable partner.</div>
-      <div class="price-main">$200 <span class="price-sub">/mo</span></div>
-      <div class="price-rwf">RWF 270,000 /month</div>
-      <div class="price-note">up to 8 files included</div>
-      <ul class="price-features">
-        <li>Unlimited files (fair use)</li>
-        <li>Dedicated customs advisor</li>
-        <li>Monthly customs report</li>
-        <li>EAC regulatory monitoring</li>
-      </ul>
-      <a href="https://wa.me/250788405112?text=Hello%2C%20I%20am%20interested%20in%20the%20SME%20monthly%20customs%20plan%20for%20my%20business." target="_blank" class="btn-card btn-card-outline">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display:inline;vertical-align:middle;margin-right:6px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.529 5.845L.057 23.522a.5.5 0 0 0 .617.63l5.796-1.516A11.955 11.955 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.9 0-3.679-.524-5.2-1.435l-.372-.221-3.862 1.011 1.03-3.752-.242-.386A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
-        WhatsApp us
-      </a>
-    </div>
-  </div>
-
-  <p class="price-note-global">
-    RWF prices are indicative, based on 1 USD = 1,350 RWF. All prices excl. taxes. Customs duties &amp; RRA fees are billed separately.
-  </p>
-</section>
-
-<!-- DOCUMENTS -->
-<section class="section docs-section" id="documents">
-  <div class="docs-grid">
-    <div>
-      <div class="section-label">Required documents</div>
-      <h2>What we need from you</h2>
-      <p class="section-desc">
-        Prepare these documents before submitting your file. Everything is done online — no need to visit an office.
-      </p>
-      <div class="doc-list">
-        <div class="doc-item">
-          <div class="doc-icon">📄</div>
-          <div>
-            <div class="doc-name">Commercial invoice</div>
-            <div class="doc-note">From the supplier, showing CIF or FOB value in detail</div>
-          </div>
-          <span class="doc-req req-always">Required</span>
+  <!-- ═══════════════════════════════════════════
+       PANEL 1: DUTY CALCULATOR
+  ══════════════════════════════════════════════ -->
+  <div class="panel active" id="panel-calc">
+    <div class="calc-card">
+      <div class="calc-header">
+        <div class="calc-header-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>
         </div>
-        <div class="doc-item">
-          <div class="doc-icon">📦</div>
-          <div>
-            <div class="doc-name">Packing list</div>
-            <div class="doc-note">Item breakdown with weights and dimensions per package</div>
-          </div>
-          <span class="doc-req req-always">Required</span>
-        </div>
-        <div class="doc-item">
-          <div class="doc-icon">🚢</div>
-          <div>
-            <div class="doc-name">Bill of Lading or Airway Bill</div>
-            <div class="doc-note">Depending on transport mode — sea, air, or road</div>
-          </div>
-          <span class="doc-req req-always">Required</span>
-        </div>
-        <div class="doc-item">
-          <div class="doc-icon">🌍</div>
-          <div>
-            <div class="doc-name">Certificate of origin</div>
-            <div class="doc-note">Needed to claim EAC, COMESA or AfCFTA duty exemptions</div>
-          </div>
-          <span class="doc-req req-sometimes">If exemption</span>
-        </div>
-        <div class="doc-item">
-          <div class="doc-icon">🔒</div>
-          <div>
-            <div class="doc-name">Import permit</div>
-            <div class="doc-note">Pharmaceuticals, food products, electronics, chemicals</div>
-          </div>
-          <span class="doc-req req-sometimes">Product-specific</span>
+        <div>
+          <h2>Rwanda Import Duty Calculator</h2>
+          <p>Instant estimate — RRA tariff schedule + EAC rates</p>
         </div>
       </div>
-    </div>
+      <div class="calc-body">
+        <div class="field-grid">
+          <div class="field">
+            <label>Product category</label>
+            <select id="cat" onchange="updateHSHint()">
+              <option value="">— Select a category —</option>
+              <optgroup label="Electronics & IT">
+                <option value="8471" data-rate="0" data-vat="18" data-label="Computers & IT equipment">Computers & IT equipment (HS 8471)</option>
+                <option value="8517" data-rate="25" data-vat="18" data-label="Mobile phones">Mobile phones (HS 8517)</option>
+                <option value="8528" data-rate="25" data-vat="18" data-label="Televisions & monitors">Televisions & monitors (HS 8528)</option>
+                <option value="8544" data-rate="10" data-vat="18" data-label="Electrical cables">Electrical cables (HS 8544)</option>
+              </optgroup>
+              <optgroup label="Clothing & Textiles">
+                <option value="6109" data-rate="25" data-vat="18" data-label="T-shirts & jerseys">T-shirts & jerseys (HS 6109)</option>
+                <option value="6203" data-rate="25" data-vat="18" data-label="Men's suits & trousers">Men's suits & trousers (HS 6203)</option>
+                <option value="6204" data-rate="25" data-vat="18" data-label="Women's clothing">Women's clothing (HS 6204)</option>
+                <option value="6403" data-rate="25" data-vat="18" data-label="Footwear">Footwear (HS 6403)</option>
+              </optgroup>
+              <optgroup label="Food & Beverages">
+                <option value="1901" data-rate="25" data-vat="18" data-label="Food preparations">Food preparations (HS 1901)</option>
+                <option value="2009" data-rate="25" data-vat="18" data-label="Fruit juices">Fruit juices (HS 2009)</option>
+                <option value="2106" data-rate="25" data-vat="18" data-label="Food products NEC">Food products NEC (HS 2106)</option>
+              </optgroup>
+              <optgroup label="Machinery & Equipment">
+                <option value="8414" data-rate="10" data-vat="18" data-label="Pumps & compressors">Pumps & compressors (HS 8414)</option>
+                <option value="8421" data-rate="10" data-vat="18" data-label="Filtering machinery">Filtering machinery (HS 8421)</option>
+                <option value="8481" data-rate="10" data-vat="18" data-label="Industrial valves">Industrial valves (HS 8481)</option>
+                <option value="8701" data-rate="10" data-vat="18" data-label="Tractors">Tractors (HS 8701)</option>
+              </optgroup>
+              <optgroup label="Vehicles & Parts">
+                <option value="8703" data-rate="25" data-vat="18" data-label="Passenger vehicles">Passenger vehicles (HS 8703)</option>
+                <option value="8708" data-rate="25" data-vat="18" data-label="Vehicle parts">Vehicle parts (HS 8708)</option>
+              </optgroup>
+              <optgroup label="Construction & Hardware">
+                <option value="3917" data-rate="25" data-vat="18" data-label="Plastic pipes & fittings">Plastic pipes & fittings (HS 3917)</option>
+                <option value="7308" data-rate="10" data-vat="18" data-label="Steel structures">Steel structures (HS 7308)</option>
+                <option value="7318" data-rate="10" data-vat="18" data-label="Screws, bolts, nuts">Screws, bolts, nuts (HS 7318)</option>
+              </optgroup>
+              <optgroup label="Cosmetics & Personal Care">
+                <option value="3304" data-rate="25" data-vat="18" data-label="Cosmetics & beauty products">Cosmetics & beauty products (HS 3304)</option>
+                <option value="3305" data-rate="25" data-vat="18" data-label="Hair care products">Hair care products (HS 3305)</option>
+                <option value="3307" data-rate="25" data-vat="18" data-label="Perfumes & toiletries">Perfumes & toiletries (HS 3307)</option>
+              </optgroup>
+              <optgroup label="Paper & Packaging">
+                <option value="4819" data-rate="25" data-vat="18" data-label="Paper bags & packaging">Paper bags & packaging (HS 4819)</option>
+                <option value="4820" data-rate="25" data-vat="18" data-label="Notebooks & stationery">Notebooks & stationery (HS 4820)</option>
+              </optgroup>
+            </select>
+          </div>
 
-    <div class="info-box">
-      <h3>Why use a licensed customs agent?</h3>
-      <p>RRA requires all customs declarations to be filed by a licensed agent. Misclassification or undervaluation errors carry severe financial penalties.</p>
-      <div class="info-point">
-        <div class="info-dot"></div>
-        <span>We assign the correct HS code to every item — one mistake can cost 10× the price of this service.</span>
-      </div>
-      <div class="info-point">
-        <div class="info-dot"></div>
-        <span>We automatically identify EAC, AfCFTA and COMESA exemptions you are entitled to.</span>
-      </div>
-      <div class="info-point">
-        <div class="info-dot"></div>
-        <span>In red-channel cases, we manage the physical inspection and respond to RRA on your behalf.</span>
-      </div>
-      <div class="info-point">
-        <div class="info-dot"></div>
-        <span>You keep a full history of all your clearance files — useful for audits and accounting.</span>
-      </div>
-    </div>
-  </div>
-</section>
+          <div class="field">
+            <label>Origin country</label>
+            <select id="origin">
+              <option value="eac">EAC (Kenya, Tanzania, Uganda, Burundi, DRC)</option>
+              <option value="comesa">COMESA (Ethiopia, Zambia, Zimbabwe…)</option>
+              <option value="eu" selected>European Union</option>
+              <option value="china">China</option>
+              <option value="usa">United States</option>
+              <option value="uae">UAE / Dubai</option>
+              <option value="india">India</option>
+              <option value="other">Other / Unknown</option>
+            </select>
+          </div>
 
-<!-- TUUMIZA CROSS-PROMO -->
-<section style="background:var(--dark);padding:72px 48px;">
-  <div style="max-width:960px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;">
-    <div>
-      <div style="font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold-light);margin-bottom:12px;">Our sister service</div>
-      <h2 style="color:#fff;margin-bottom:16px;letter-spacing:-1px;">Want to order products<br>from Europe?</h2>
-      <p style="font-size:16px;font-weight:300;color:rgba(255,255,255,0.6);line-height:1.7;margin-bottom:32px;">
-        ACE POWER LOGISTICS partners with <strong style="color:var(--gold-light);font-weight:500;">Tuumiza</strong> — a personal shopping service that sources any product from Europe and delivers it straight to Kigali. Electronics, fashion, cosmetics, professional equipment — if it's sold in Europe, Tuumiza can get it for you.
-      </p>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:32px;">
-        <span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:6px 14px;font-size:12px;color:rgba(255,255,255,0.7);">Belgium · France · Germany</span>
-        <span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:6px 14px;font-size:12px;color:rgba(255,255,255,0.7);">Delivered to Kigali</span>
-        <span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:6px 14px;font-size:12px;color:rgba(255,255,255,0.7);">Customs handled end-to-end</span>
-      </div>
-      <a href="https://tuumiza.com" target="_blank" style="display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:#fff;padding:14px 28px;border-radius:10px;font-size:15px;font-weight:500;text-decoration:none;transition:.2s;" onmouseover="this.style.background='#D9A030'" onmouseout="this.style.background='var(--gold)'">
-        Visit Tuumiza
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-    </div>
-    <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px;">
-      <div style="font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:20px;">How it works</div>
-      <div style="display:flex;flex-direction:column;gap:16px;">
-        <div style="display:flex;gap:14px;align-items:flex-start;">
-          <div style="width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:13px;color:#fff;flex-shrink:0;">1</div>
-          <div>
-            <div style="font-size:14px;font-weight:500;color:#fff;margin-bottom:3px;">Tell us what you want</div>
-            <div style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.5;">Send a link, a photo, or a description of the product you're looking for.</div>
+          <div class="field">
+            <label>CIF value (USD)</label>
+            <input type="number" id="cifUSD" placeholder="e.g. 5000" min="1" oninput="syncCIF('usd')">
+          </div>
+
+          <div class="field">
+            <label>CIF value (RWF)</label>
+            <input type="number" id="cifRWF" placeholder="e.g. 6,750,000" min="1" oninput="syncCIF('rwf')">
+          </div>
+
+          <div class="field full">
+            <label>Transport mode</label>
+            <div class="radio-group">
+              <label class="radio-opt selected" id="ro-air" onclick="selectMode('air')">
+                <input type="radio" name="mode" value="air" checked>
+                <span class="ro-label">✈ Air</span>
+                <span class="ro-sub">Kigali Int'l Airport</span>
+              </label>
+              <label class="radio-opt" id="ro-sea" onclick="selectMode('sea')">
+                <input type="radio" name="mode" value="sea">
+                <span class="ro-label">🚢 Sea + Road</span>
+                <span class="ro-sub">Mombasa → Kigali</span>
+              </label>
+              <label class="radio-opt" id="ro-road" onclick="selectMode('road')">
+                <input type="radio" name="mode" value="road">
+                <span class="ro-label">🚛 Road</span>
+                <span class="ro-sub">EAC land border</span>
+              </label>
+            </div>
           </div>
         </div>
-        <div style="display:flex;gap:14px;align-items:flex-start;">
-          <div style="width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:13px;color:#fff;flex-shrink:0;">2</div>
-          <div>
-            <div style="font-size:14px;font-weight:500;color:#fff;margin-bottom:3px;">Tuumiza sources &amp; ships it</div>
-            <div style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.5;">Our agents in Europe buy the item and consolidate it into a shipment.</div>
+
+        <div id="hs-hint" class="hs-hint" style="margin-bottom:14px;display:none;"></div>
+
+        <button class="calc-btn" onclick="calculate()">
+          Calculate duties & taxes →
+        </button>
+
+        <!-- RESULTS -->
+        <div class="result-box" id="result-box">
+          <div class="result-header">
+            <span>Duty estimate</span>
+            <span class="result-ref" id="result-ref"></span>
+          </div>
+          <div class="result-body">
+            <div class="result-row">
+              <span class="label">CIF value</span>
+              <span class="val" id="r-cif"></span>
+            </div>
+            <div class="result-row">
+              <span class="label">Import duty rate</span>
+              <span class="val" id="r-rate"></span>
+            </div>
+            <div class="result-row">
+              <span class="label">Import duty amount</span>
+              <span class="val" id="r-duty"></span>
+            </div>
+            <div class="result-row">
+              <span class="label">VAT on import (18%)</span>
+              <span class="val" id="r-vat"></span>
+            </div>
+            <div class="result-row">
+              <span class="label">Infrastructure levy (1.5%)</span>
+              <span class="val" id="r-levy"></span>
+            </div>
+            <div class="result-row" id="r-eac-row" style="display:none;">
+              <span class="label">EAC/COMESA exemption applied</span>
+              <span class="val" style="color:var(--green);" id="r-eac"></span>
+            </div>
+            <div class="result-row">
+              <span class="label">RRA channel (indicative)</span>
+              <span class="val" id="r-channel"></span>
+            </div>
+          </div>
+          <div class="result-total">
+            <span class="tl">Total duties & taxes</span>
+            <span class="tv" id="r-total"></span>
+          </div>
+          <div class="result-warning" id="r-warning"></div>
+          <div class="result-cta">
+            <p><strong>Ready to file?</strong> Let us handle your declaration — we'll apply any exemptions and get your release notice fast.</p>
+            <a href="#" onclick="switchTab('form', null); window.scrollTo(0,0); return false;">
+              Submit my file →
+            </a>
           </div>
         </div>
-        <div style="display:flex;gap:14px;align-items:flex-start;">
-          <div style="width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:13px;color:#fff;flex-shrink:0;">3</div>
-          <div>
-            <div style="font-size:14px;font-weight:500;color:#fff;margin-bottom:3px;">We clear it through customs</div>
-            <div style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.5;">ACE POWER LOGISTICS handles the Rwanda customs declaration on arrival.</div>
+
+        <!-- INFO STRIP -->
+        <div class="info-strip">
+          <div class="info-item">
+            <h4>EAC Common External Tariff</h4>
+            <p>Rwanda applies 3 bands: 0% (raw materials & capital goods), 10% (intermediate goods), 25% (finished goods).</p>
           </div>
-        </div>
-        <div style="display:flex;gap:14px;align-items:flex-start;">
-          <div style="width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:13px;color:#fff;flex-shrink:0;">4</div>
-          <div>
-            <div style="font-size:14px;font-weight:500;color:#fff;margin-bottom:3px;">Delivered to your door in Kigali</div>
-            <div style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.5;">You receive your European product without leaving Rwanda.</div>
+          <div class="info-item">
+            <h4>VAT on imports</h4>
+            <p>18% VAT applies on most imported goods (CIF + duty). Some food & medical items are exempt.</p>
+          </div>
+          <div class="info-item">
+            <h4>EAC & COMESA exemptions</h4>
+            <p>Goods from EAC or COMESA countries may qualify for 0% duty with a valid Certificate of Origin.</p>
           </div>
         </div>
       </div>
     </div>
   </div>
-</section>
 
-<!-- CTA -->
-<section class="cta-section">
-  <h2>Ready to clear your first shipment?</h2>
-  <p>Submit your file now. Quote delivered in under 2 hours.</p>
-  <a href="https://wa.me/250788405112?text=Hello%20ACE%20POWER%20LOGISTICS%2C%20I%20would%20like%20to%20submit%20a%20customs%20declaration%20file." target="_blank" class="btn-white">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:inline;vertical-align:middle;margin-right:8px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.529 5.845L.057 23.522a.5.5 0 0 0 .617.63l5.796-1.516A11.955 11.955 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.9 0-3.679-.524-5.2-1.435l-.372-.221-3.862 1.011 1.03-3.752-.242-.386A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
-    Message us on WhatsApp
-  </a>
-  <p style="margin-top:24px;font-size:13px;color:rgba(255,255,255,0.6);">
-    Or call us directly: <a href="tel:+250788405112" style="color:#fff;font-weight:600;text-decoration:none;">+250 788 405 112</a>
-  </p>
-</section>
+  <!-- ═══════════════════════════════════════════
+       PANEL 2: SUBMISSION FORM
+  ══════════════════════════════════════════════ -->
+  <div class="panel" id="panel-form">
+    <div class="form-card">
+      <div class="form-header">
+        <div style="width:36px;height:36px;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div>
+          <h2>Submit your customs file</h2>
+          <p>Fill in 3 quick steps — we'll contact you within 2 hours with your quote</p>
+        </div>
+      </div>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-logo">ACE POWER <span>LOGISTICS</span><small>Online Customs Clearance</small></div>
-  <div style="text-align:center">
-    <p>Licensed customs agent — RRA · Kigali, Rwanda · © 2024</p>
-    <a href="https://wa.me/250788405112" target="_blank" style="color:var(--gold-light);font-size:14px;text-decoration:none;margin-top:4px;display:block;">+250 788 405 112 · WhatsApp</a>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:33%"></div></div>
+
+      <div class="form-steps">
+        <div class="form-step active" id="step-tab-1">
+          <div class="step-no">1</div>
+          Shipment info
+        </div>
+        <div class="form-step" id="step-tab-2">
+          <div class="step-no">2</div>
+          Documents
+        </div>
+        <div class="form-step" id="step-tab-3">
+          <div class="step-no">3</div>
+          Contact & review
+        </div>
+      </div>
+
+      <!-- STEP 1: Shipment info -->
+      <div class="form-section active" id="step-1">
+        <div class="section-title">Tell us about your shipment</div>
+        <div class="section-subtitle">Basic details about the goods you're importing or exporting.</div>
+
+        <div class="field-grid">
+          <div class="field">
+            <label>Declaration type</label>
+            <select id="f-type">
+              <option value="import">Import (bringing goods into Rwanda)</option>
+              <option value="export">Export (sending goods out of Rwanda)</option>
+              <option value="transit">Transit (goods passing through)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Origin / destination country</label>
+            <input type="text" id="f-country" placeholder="e.g. Belgium, China, UAE">
+          </div>
+          <div class="field">
+            <label>Description of goods</label>
+            <input type="text" id="f-goods" placeholder="e.g. Electronic components, clothing, machinery">
+          </div>
+          <div class="field">
+            <label>Approximate CIF value (USD)</label>
+            <input type="number" id="f-value" placeholder="e.g. 8500" min="0">
+          </div>
+          <div class="field">
+            <label>Transport mode</label>
+            <select id="f-transport">
+              <option value="air">Air freight (Kigali International Airport)</option>
+              <option value="sea">Sea + Road (via Mombasa)</option>
+              <option value="road">Road (land border)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Expected arrival date</label>
+            <input type="text" id="f-date" placeholder="e.g. 15 January 2025">
+          </div>
+          <div class="field full">
+            <label>Additional notes (optional)</label>
+            <textarea id="f-notes" rows="3" placeholder="Any special requirements, permits needed, EAC origin, etc."></textarea>
+          </div>
+        </div>
+
+        <div class="form-nav" style="padding:0;margin-top:8px;border:none;background:transparent;">
+          <div></div>
+          <button class="btn-next" onclick="goStep(2)">
+            Next: Documents
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 2: Documents -->
+      <div class="form-section" id="step-2">
+        <div class="section-title">Which documents do you have?</div>
+        <div class="section-subtitle">Check all documents you can provide. You'll send them to us via WhatsApp after submission.</div>
+
+        <div class="doc-checklist">
+          <label class="doc-check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="doc-invoice" checked>
+            <div style="flex:1">
+              <div class="doc-check-label">Commercial invoice</div>
+              <span class="doc-check-note">From your supplier, showing value and description</span>
+            </div>
+            <span class="doc-badge badge-req">Required</span>
+          </label>
+          <label class="doc-check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="doc-packing" checked>
+            <div style="flex:1">
+              <div class="doc-check-label">Packing list</div>
+              <span class="doc-check-note">Item breakdown, weights, dimensions</span>
+            </div>
+            <span class="doc-badge badge-req">Required</span>
+          </label>
+          <label class="doc-check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="doc-bl">
+            <div style="flex:1">
+              <div class="doc-check-label">Bill of Lading or Airway Bill</div>
+              <span class="doc-check-note">Shipping document from carrier</span>
+            </div>
+            <span class="doc-badge badge-req">Required</span>
+          </label>
+          <label class="doc-check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="doc-origin">
+            <div style="flex:1">
+              <div class="doc-check-label">Certificate of origin</div>
+              <span class="doc-check-note">Needed for EAC / COMESA / AfCFTA exemptions</span>
+            </div>
+            <span class="doc-badge badge-opt">Optional</span>
+          </label>
+          <label class="doc-check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="doc-permit">
+            <div style="flex:1">
+              <div class="doc-check-label">Import / export permit</div>
+              <span class="doc-check-note">For regulated goods (pharma, food, electronics)</span>
+            </div>
+            <span class="doc-badge badge-opt">If applicable</span>
+          </label>
+          <label class="doc-check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="doc-insurance">
+            <div style="flex:1">
+              <div class="doc-check-label">Insurance certificate</div>
+              <span class="doc-check-note">Required for CIF valuation</span>
+            </div>
+            <span class="doc-badge badge-opt">If applicable</span>
+          </label>
+        </div>
+
+        <div style="background:#FEF3E2;border:1px solid #F5C97A;border-radius:8px;padding:12px 16px;font-size:12px;color:#7A4F00;line-height:1.6;margin-top:4px;">
+          <strong>Don't worry if you're missing some documents.</strong> After you submit, we'll tell you exactly what's needed for your specific shipment and help you obtain any missing paperwork.
+        </div>
+
+        <div class="form-nav" style="padding:0;margin-top:24px;border:none;background:transparent;">
+          <button class="btn-prev" onclick="goStep(1)">← Back</button>
+          <button class="btn-next" onclick="goStep(3)">
+            Next: Review & send
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 3: Contact & Review -->
+      <div class="form-section" id="step-3">
+        <div class="section-title">Your contact details & summary</div>
+        <div class="section-subtitle">We'll send your quote to this number. Check your details before sending.</div>
+
+        <div class="field-grid" style="margin-bottom:24px;">
+          <div class="field">
+            <label>Your full name</label>
+            <input type="text" id="f-name" placeholder="e.g. Jean-Paul Habimana">
+          </div>
+          <div class="field">
+            <label>WhatsApp number</label>
+            <input type="text" id="f-phone" placeholder="+250 7XX XXX XXX">
+          </div>
+          <div class="field">
+            <label>Company name (optional)</label>
+            <input type="text" id="f-company" placeholder="e.g. Kigali Electronics Ltd">
+          </div>
+          <div class="field">
+            <label>Email (optional)</label>
+            <input type="text" id="f-email" placeholder="you@company.rw">
+          </div>
+        </div>
+
+        <div class="section-title" style="font-size:14px;margin-bottom:12px;">Summary</div>
+        <div class="summary-grid" id="summary-grid">
+          <!-- filled by JS -->
+        </div>
+
+        <a id="whatsapp-link" href="#" target="_blank" class="whatsapp-submit" onclick="return buildWhatsApp()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.529 5.845L.057 23.522a.5.5 0 0 0 .617.63l5.796-1.516A11.955 11.955 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.9 0-3.679-.524-5.2-1.435l-.372-.221-3.862 1.011 1.03-3.752-.242-.386A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Send via WhatsApp to ACE POWER LOGISTICS
+        </a>
+        <p style="text-align:center;font-size:11px;color:var(--muted);margin-top:10px;">
+          This opens WhatsApp with a pre-filled message. Attach your documents in the same chat.
+        </p>
+
+        <div class="form-nav" style="padding:0;margin-top:20px;border:none;background:transparent;">
+          <button class="btn-prev" onclick="goStep(2)">← Back</button>
+          <div></div>
+        </div>
+      </div>
+
+    </div>
   </div>
-  <nav>
-    <a href="#">Terms</a>
-    <a href="#">Privacy</a>
-    <a href="tel:+250788405112">Contact</a>
-  </nav>
-</footer>
+
+</div>
 
 <script>
-  function setCurrency(cur, btn) {
-    document.querySelectorAll('.currency-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    document.body.classList.toggle('show-rwf', cur === 'rwf');
+const RATE = 1350;
+
+// ─── TAB SWITCHER ───
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  else {
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      if ((tab === 'calc' && b.textContent.includes('Duty')) ||
+          (tab === 'form' && b.textContent.includes('Submit'))) b.classList.add('active');
+    });
   }
+  document.getElementById('panel-' + tab).classList.add('active');
+}
+
+// ─── CALCULATOR ───
+function syncCIF(source) {
+  const usd = document.getElementById('cifUSD');
+  const rwf = document.getElementById('cifRWF');
+  if (source === 'usd' && usd.value) rwf.value = Math.round(usd.value * RATE);
+  if (source === 'rwf' && rwf.value) usd.value = (rwf.value / RATE).toFixed(0);
+}
+
+function selectMode(m) {
+  ['air','sea','road'].forEach(id => document.getElementById('ro-'+id).classList.remove('selected'));
+  document.getElementById('ro-'+m).classList.add('selected');
+}
+
+function updateHSHint() {
+  const sel = document.getElementById('cat');
+  const opt = sel.options[sel.selectedIndex];
+  const hint = document.getElementById('hs-hint');
+  if (opt.value) {
+    hint.style.display = 'block';
+    hint.innerHTML = `HS Code <strong>${opt.value}</strong> — ${opt.dataset.label}. Import duty rate: <strong>${opt.dataset.rate}%</strong>. <a href="https://rwandatrade.rw" target="_blank">Verify on Rwanda Trade Portal ↗</a>`;
+  } else {
+    hint.style.display = 'none';
+  }
+}
+
+function fmt(n) { return '$' + Math.round(n).toLocaleString() + ' <small>RWF ' + Math.round(n * RATE).toLocaleString() + '</small>'; }
+
+function calculate() {
+  const sel = document.getElementById('cat');
+  const opt = sel.options[sel.selectedIndex];
+  const cif = parseFloat(document.getElementById('cifUSD').value);
+  const origin = document.getElementById('origin').value;
+
+  if (!opt.value) { alert('Please select a product category.'); return; }
+  if (!cif || cif <= 0) { alert('Please enter a CIF value.'); return; }
+
+  let dutyRate = parseInt(opt.dataset.rate);
+  let eacDiscount = 0;
+  let eacNote = '';
+
+  if (origin === 'eac') {
+    eacDiscount = dutyRate;
+    dutyRate = 0;
+    eacNote = '100% duty exemption (EAC Common Market)';
+  } else if (origin === 'comesa') {
+    eacDiscount = Math.round(dutyRate * 0.6 * 10) / 10;
+    dutyRate = Math.round(dutyRate * 0.4 * 10) / 10;
+    eacNote = '60% duty reduction (COMESA Protocol)';
+  }
+
+  const duty = cif * (dutyRate / 100);
+  const levy = cif * 0.015;
+  const vatBase = cif + duty + levy;
+  const vat = vatBase * 0.18;
+  const total = duty + levy + vat;
+
+  // Channel
+  let channel, channelClass;
+  if (cif < 500) { channel = 'Green (auto-cleared)'; channelClass = 'ch-green'; }
+  else if (cif < 5000 && dutyRate <= 10) { channel = 'Green (low risk)'; channelClass = 'ch-green'; }
+  else if (cif > 20000 || dutyRate === 25) { channel = 'Yellow or Red (doc check likely)'; channelClass = 'ch-yellow'; }
+  else { channel = 'Green (standard)'; channelClass = 'ch-green'; }
+
+  // Populate results
+  document.getElementById('r-cif').innerHTML = fmt(cif);
+  document.getElementById('r-rate').textContent = dutyRate + '%' + (eacDiscount > 0 ? ` (reduced from ${dutyRate + eacDiscount}%)` : '');
+  document.getElementById('r-duty').innerHTML = fmt(duty);
+  document.getElementById('r-vat').innerHTML = fmt(vat);
+  document.getElementById('r-levy').innerHTML = fmt(levy);
+
+  const eacRow = document.getElementById('r-eac-row');
+  if (eacDiscount > 0) {
+    eacRow.style.display = 'flex';
+    document.getElementById('r-eac').textContent = eacNote;
+  } else {
+    eacRow.style.display = 'none';
+  }
+
+  document.getElementById('r-channel').innerHTML = `<span class="ch-badge ${channelClass}">${channel}</span>`;
+  document.getElementById('r-total').innerHTML = `$${Math.round(total).toLocaleString()} <small>RWF ${Math.round(total * RATE).toLocaleString()}</small>`;
+  document.getElementById('result-ref').textContent = 'EST-' + Date.now().toString().slice(-6);
+
+  const warn = document.getElementById('r-warning');
+  warn.innerHTML = '<strong>Note:</strong> This is an estimate only. Final duties are assessed by RRA based on the actual CIF value at time of filing. Certain goods may attract additional levies. Our agent will confirm the exact amount before you pay.';
+
+  document.getElementById('result-box').classList.add('show');
+  document.getElementById('result-box').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ─── FORM STEPS ───
+let currentStep = 1;
+
+function goStep(n) {
+  document.getElementById('step-' + currentStep).classList.remove('active');
+  document.getElementById('step-tab-' + currentStep).classList.remove('active');
+  document.getElementById('step-tab-' + currentStep).classList.add('done');
+
+  currentStep = n;
+  document.getElementById('step-' + n).classList.add('active');
+  document.getElementById('step-tab-' + n).classList.add('active');
+  document.getElementById('progress-fill').style.width = (n / 3 * 100) + '%';
+
+  if (n === 3) buildSummary();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleCheck(el) {
+  setTimeout(() => el.classList.toggle('checked', el.querySelector('input').checked), 10);
+}
+document.querySelectorAll('.doc-check-item').forEach(el => {
+  if (el.querySelector('input').checked) el.classList.add('checked');
+});
+
+function buildSummary() {
+  const items = [
+    ['Declaration type', document.getElementById('f-type').value],
+    ['Origin / destination', document.getElementById('f-country').value || '—'],
+    ['Goods', document.getElementById('f-goods').value || '—'],
+    ['CIF value', document.getElementById('f-value').value ? '$' + parseInt(document.getElementById('f-value').value).toLocaleString() : '—'],
+    ['Transport', document.getElementById('f-transport').value],
+    ['Arrival date', document.getElementById('f-date').value || '—'],
+  ];
+  const grid = document.getElementById('summary-grid');
+  grid.innerHTML = items.map(([l, v]) => `
+    <div class="summary-item">
+      <div class="s-label">${l}</div>
+      <div class="s-val">${v}</div>
+    </div>`).join('');
+}
+
+function buildWhatsApp() {
+  const name = document.getElementById('f-name').value || 'Client';
+  const phone = document.getElementById('f-phone').value;
+  const company = document.getElementById('f-company').value;
+  const type = document.getElementById('f-type').value;
+  const country = document.getElementById('f-country').value;
+  const goods = document.getElementById('f-goods').value;
+  const value = document.getElementById('f-value').value;
+  const transport = document.getElementById('f-transport').value;
+  const date = document.getElementById('f-date').value;
+  const notes = document.getElementById('f-notes').value;
+
+  const docs = [];
+  if (document.getElementById('doc-invoice').checked) docs.push('Commercial invoice');
+  if (document.getElementById('doc-packing').checked) docs.push('Packing list');
+  if (document.getElementById('doc-bl').checked) docs.push('B/L or Airway Bill');
+  if (document.getElementById('doc-origin').checked) docs.push('Certificate of origin');
+  if (document.getElementById('doc-permit').checked) docs.push('Import permit');
+  if (document.getElementById('doc-insurance').checked) docs.push('Insurance certificate');
+
+  let msg = `Hello ACE POWER LOGISTICS,\n\n`;
+  msg += `I would like to submit a customs declaration file.\n\n`;
+  msg += `*SHIPMENT DETAILS*\n`;
+  msg += `• Name: ${name}${company ? ' — ' + company : ''}\n`;
+  if (phone) msg += `• Phone: ${phone}\n`;
+  msg += `• Type: ${type}\n`;
+  msg += `• Origin/Destination: ${country || 'N/A'}\n`;
+  msg += `• Goods: ${goods || 'N/A'}\n`;
+  if (value) msg += `• CIF value: $${parseInt(value).toLocaleString()}\n`;
+  msg += `• Transport: ${transport}\n`;
+  if (date) msg += `• Expected arrival: ${date}\n`;
+  msg += `\n*DOCUMENTS AVAILABLE*\n`;
+  msg += docs.map(d => `• ${d}`).join('\n');
+  if (notes) msg += `\n\n*NOTES*\n${notes}`;
+  msg += `\n\nPlease confirm receipt and send me a quote. Thank you.`;
+
+  const url = 'https://wa.me/250788405112?text=' + encodeURIComponent(msg);
+  document.getElementById('whatsapp-link').href = url;
+  return true;
+}
 </script>
 </body>
 </html>
