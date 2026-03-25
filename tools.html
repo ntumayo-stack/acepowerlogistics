@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Customs Duty Calculator & File Submission — ACE POWER LOGISTICS</title>
+<meta name="description" content="Calculate Rwanda import duties and taxes instantly. Submit your customs declaration file online. ACE POWER LOGISTICS — licensed customs agent, Kigali.">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green: #1A6B45;
+  --green-light: #2A9D6A;
+  --green-pale: #E8F5EF;
+  --gold: #C9952A;
+  --gold-light: #F0BC5A;
+  --dark: #0D1F17;
+  --text: #1C3028;
+  --muted: #5A7A6A;
+  --border: #C8DDD4;
+  --white: #FAFCFB;
+  --surface: #F2F8F5;
+  --red: #C0392B;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--text); }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 48px;
+  background: rgba(250,252,251,0.94); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 15px; color: var(--green); line-height: 1.2; text-decoration: none; display: block; }
+.logo span { color: var(--gold); }
+.logo small { display: block; font-size: 10px; font-weight: 400; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+.nav-links { display: flex; gap: 24px; align-items: center; list-style: none; }
+.nav-links a { font-size: 13px; color: var(--muted); text-decoration: none; transition: color .2s; }
+.nav-links a:hover { color: var(--green); }
+.nav-back { font-size: 13px; color: var(--green); text-decoration: none; display: flex; align-items: center; gap: 6px; }
+
+/* HERO STRIP */
+.hero-strip {
+  padding: 100px 48px 56px;
+  background: var(--dark);
+  text-align: center;
+}
+.hero-strip h1 {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: clamp(28px, 4vw, 48px); letter-spacing: -1.5px;
+  color: #fff; margin-bottom: 14px; line-height: 1.1;
+}
+.hero-strip h1 span { color: var(--gold-light); }
+.hero-strip p { font-size: 16px; font-weight: 300; color: rgba(255,255,255,0.55); max-width: 560px; margin: 0 auto 28px; line-height: 1.7; }
+.tab-switcher {
+  display: inline-flex; background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 4px; gap: 4px;
+}
+.tab-btn {
+  padding: 10px 28px; border-radius: 9px; border: none; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+  transition: .2s; background: transparent; color: rgba(255,255,255,0.5);
+}
+.tab-btn.active { background: var(--green); color: #fff; }
+
+/* MAIN CONTENT */
+.main { max-width: 860px; margin: 0 auto; padding: 48px 24px 80px; }
+
+/* PANELS */
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* ── CALCULATOR ── */
+.calc-card {
+  background: #fff; border: 1px solid var(--border); border-radius: 16px;
+  overflow: hidden; box-shadow: 0 2px 24px rgba(26,107,69,0.06);
+}
+.calc-header {
+  background: var(--green-pale); padding: 20px 28px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 12px;
+}
+.calc-header-icon {
+  width: 36px; height: 36px; background: var(--green); border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+}
+.calc-header h2 { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; color: var(--dark); }
+.calc-header p { font-size: 12px; color: var(--muted); margin-top: 2px; }
+.calc-body { padding: 28px; }
+
+.field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field.full { grid-column: 1 / -1; }
+label { font-size: 12px; font-weight: 600; color: var(--text); letter-spacing: .3px; text-transform: uppercase; }
+input[type="number"], input[type="text"], select, textarea {
+  padding: 11px 14px; border: 1.5px solid var(--border); border-radius: 8px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--text);
+  background: var(--white); transition: border-color .2s, box-shadow .2s;
+  appearance: none; -webkit-appearance: none;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none; border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(26,107,69,0.1);
+}
+input::placeholder, textarea::placeholder { color: #aac4b8; }
+select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235A7A6A' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; }
+
+.hs-hint { font-size: 11px; color: var(--muted); margin-top: 3px; }
+.hs-hint a { color: var(--green); }
+
+.calc-btn {
+  width: 100%; padding: 14px; background: var(--green); color: #fff;
+  border: none; border-radius: 10px; font-family: 'Syne', sans-serif;
+  font-size: 15px; font-weight: 700; cursor: pointer; transition: background .2s, transform .1s;
+  margin-top: 4px;
+}
+.calc-btn:hover { background: var(--green-light); transform: translateY(-1px); }
+.calc-btn:active { transform: none; }
+
+/* RESULTS */
+.result-box {
+  margin-top: 24px; border-radius: 12px; overflow: hidden;
+  border: 1.5px solid var(--green); display: none;
+  animation: slideIn .3s ease;
+}
+@keyframes slideIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+.result-box.show { display: block; }
+.result-header {
+  background: var(--green); padding: 14px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.result-header span { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.8); letter-spacing: 1px; text-transform: uppercase; }
+.result-ref { font-size: 11px; color: rgba(255,255,255,0.5); }
+.result-body { background: var(--white); padding: 20px; }
+.result-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 0; border-bottom: 1px solid var(--surface);
+  font-size: 14px;
+}
+.result-row:last-child { border-bottom: none; }
+.result-row .label { color: var(--muted); }
+.result-row .val { font-weight: 500; color: var(--text); text-align: right; }
+.result-row .val small { display: block; font-size: 11px; color: var(--muted); font-weight: 400; }
+.result-total {
+  background: var(--dark); padding: 16px 20px; margin-top: 0;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.result-total .tl { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.6); }
+.result-total .tv {
+  font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: 22px; color: var(--gold-light); text-align: right;
+}
+.result-total .tv small { display: block; font-size: 12px; color: rgba(255,255,255,0.4); font-weight: 400; }
+
+.result-warning {
+  background: #FEF3E2; border: 1px solid #F5C97A; border-radius: 8px;
+  padding: 12px 16px; margin: 16px 20px 0; font-size: 12px; color: #7A4F00; line-height: 1.6;
+}
+.result-cta {
+  padding: 16px 20px; background: var(--green-pale);
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.result-cta p { font-size: 13px; color: var(--green); line-height: 1.5; }
+.result-cta p strong { display: block; font-weight: 600; }
+.result-cta a {
+  white-space: nowrap; background: var(--green); color: #fff;
+  padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 500;
+  text-decoration: none; display: flex; align-items: center; gap: 6px; flex-shrink: 0;
+}
+
+/* channel badge */
+.ch-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600;
+}
+.ch-green { background: #E8F5EF; color: var(--green); }
+.ch-yellow { background: #FEF9E7; color: #7A6500; }
+.ch-red { background: #FDEDEC; color: var(--red); }
+
+/* SEO INFO STRIP */
+.info-strip {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px 24px; margin-top: 20px;
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 16px;
+}
+.info-item h4 { font-size: 12px; font-weight: 600; color: var(--dark); margin-bottom: 4px; text-transform: uppercase; letter-spacing: .5px; }
+.info-item p { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+/* ── SUBMISSION FORM ── */
+.form-card {
+  background: #fff; border: 1px solid var(--border); border-radius: 16px;
+  overflow: hidden; box-shadow: 0 2px 24px rgba(26,107,69,0.06);
+}
+.form-header {
+  background: var(--dark); padding: 20px 28px;
+  display: flex; align-items: center; gap: 12px;
+}
+.form-header h2 { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; color: #fff; }
+.form-header p { font-size: 12px; color: rgba(255,255,255,0.45); margin-top: 2px; }
+
+.form-steps {
+  display: flex; gap: 0; border-bottom: 1px solid var(--border);
+  background: var(--surface); overflow-x: auto;
+}
+.form-step {
+  flex: 1; min-width: 120px; padding: 14px 16px; text-align: center;
+  font-size: 12px; font-weight: 500; color: var(--muted);
+  border-bottom: 2px solid transparent; cursor: pointer; transition: .2s;
+  white-space: nowrap;
+}
+.form-step.active { color: var(--green); border-bottom-color: var(--green); background: #fff; }
+.form-step.done { color: var(--green); }
+.form-step .step-no {
+  width: 20px; height: 20px; border-radius: 50%; display: inline-flex;
+  align-items: center; justify-content: center; font-size: 10px; font-weight: 700;
+  background: var(--border); color: var(--muted); margin-bottom: 4px;
+  transition: .2s;
+}
+.form-step.active .step-no { background: var(--green); color: #fff; }
+.form-step.done .step-no { background: var(--green); color: #fff; }
+
+.form-section { padding: 28px; display: none; }
+.form-section.active { display: block; }
+
+.section-title {
+  font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700;
+  color: var(--dark); margin-bottom: 6px;
+}
+.section-subtitle { font-size: 13px; color: var(--muted); margin-bottom: 24px; line-height: 1.5; }
+
+.upload-zone {
+  border: 2px dashed var(--border); border-radius: 10px; padding: 28px;
+  text-align: center; cursor: pointer; transition: .2s; background: var(--surface);
+  position: relative;
+}
+.upload-zone:hover { border-color: var(--green); background: var(--green-pale); }
+.upload-zone input[type="file"] {
+  position: absolute; inset: 0; opacity: 0; cursor: pointer;
+  width: 100%; height: 100%;
+}
+.upload-icon { width: 40px; height: 40px; background: var(--green-pale); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; }
+.upload-zone h4 { font-size: 14px; font-weight: 600; color: var(--dark); margin-bottom: 4px; }
+.upload-zone p { font-size: 12px; color: var(--muted); }
+.upload-zone .formats { margin-top: 8px; font-size: 11px; color: var(--border); }
+
+.file-list { margin-top: 12px; display: flex; flex-direction: column; gap: 8px; }
+.file-item {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--green-pale); border: 1px solid #A8D5BC;
+  border-radius: 8px; padding: 10px 14px; font-size: 13px;
+}
+.file-item svg { color: var(--green); flex-shrink: 0; }
+.file-item span { flex: 1; color: var(--text); }
+.file-item small { color: var(--muted); font-size: 11px; }
+.file-remove { background: none; border: none; cursor: pointer; color: var(--muted); padding: 2px; }
+
+.doc-checklist { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.doc-check-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px; border-radius: 8px; border: 1.5px solid var(--border);
+  cursor: pointer; transition: .2s; background: var(--white);
+}
+.doc-check-item:hover { border-color: var(--green-light); background: var(--green-pale); }
+.doc-check-item.checked { border-color: var(--green); background: var(--green-pale); }
+.doc-check-item input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--green); flex-shrink: 0; }
+.doc-check-label { font-size: 13px; font-weight: 500; color: var(--text); }
+.doc-check-note { font-size: 11px; color: var(--muted); display: block; margin-top: 1px; }
+.doc-badge { margin-left: auto; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; padding: 2px 8px; border-radius: 4px; flex-shrink: 0; }
+.badge-req { background: #FEF3E2; color: #A56B00; }
+.badge-opt { background: var(--green-pale); color: var(--green); }
+
+.form-nav {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 20px 28px; background: var(--surface); border-top: 1px solid var(--border);
+}
+.btn-prev {
+  padding: 11px 24px; border: 1.5px solid var(--border); border-radius: 8px;
+  background: transparent; font-family: 'DM Sans', sans-serif; font-size: 14px;
+  color: var(--muted); cursor: pointer; transition: .2s;
+}
+.btn-prev:hover { border-color: var(--green); color: var(--green); }
+.btn-next {
+  padding: 11px 28px; background: var(--green); color: #fff;
+  border: none; border-radius: 8px; font-family: 'DM Sans', sans-serif;
+  font-size: 14px; font-weight: 500; cursor: pointer; transition: .2s;
+  display: flex; align-items: center; gap: 8px;
+}
+.btn-next:hover { background: var(--green-light); }
+
+.summary-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px;
+}
+.summary-item {
+  background: var(--surface); border-radius: 8px; padding: 14px 16px;
+  border: 1px solid var(--border);
+}
+.summary-item .s-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
+.summary-item .s-val { font-size: 14px; font-weight: 500; color: var(--dark); }
+
+.whatsapp-submit {
+  width: 100%; padding: 16px; background: #25D366; color: #fff;
+  border: none; border-radius: 10px; font-family: 'Syne', sans-serif;
+  font-size: 16px; font-weight: 700; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  transition: background .2s, transform .1s; text-decoration: none;
+}
+.whatsapp-submit:hover { background: #1ebe5c; transform: translateY(-1px); }
+
+.success-box {
+  text-align: center; padding: 40px 28px; display: none;
+}
+.success-box.show { display: block; animation: slideIn .4s ease; }
+.success-icon {
+  width: 64px; height: 64px; background: var(--green-pale); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;
+}
+.success-box h3 { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; color: var(--dark); margin-bottom: 10px; }
+.success-box p { font-size: 14px; color: var(--muted); max-width: 360px; margin: 0 auto; line-height: 1.7; }
+
+/* PROGRESS BAR */
+.progress-bar { height: 3px; background: var(--border); }
+.progress-fill { height: 100%; background: var(--green); transition: width .4s ease; }
+
+/* MISC */
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.radio-group { display: flex; gap: 10px; flex-wrap: wrap; }
+.radio-opt {
+  flex: 1; min-width: 100px; border: 1.5px solid var(--border); border-radius: 8px;
+  padding: 10px 14px; cursor: pointer; transition: .2s; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+}
+.radio-opt:hover { border-color: var(--green-light); }
+.radio-opt.selected { border-color: var(--green); background: var(--green-pale); }
+.radio-opt input { display: none; }
+.radio-opt .ro-label { font-size: 13px; font-weight: 500; color: var(--text); }
+.radio-opt .ro-sub { font-size: 11px; color: var(--muted); }
+
+@media (max-width: 640px) {
+  nav { padding: 14px 20px; }
+  .hero-strip { padding: 90px 20px 40px; }
+  .main { padding: 32px 16px 60px; }
+  .field-grid, .field-row, .summary-grid { grid-template-columns: 1fr; }
+  .info-strip { grid-template-columns: 1fr; }
+  .result-cta { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
+    <img src="data:image/png;base64,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" alt="ACE Power Logistics logo" style="height:48px;width:auto;object-fit:contain;">
+    <div class="logo">ACE POWER <span>LOGISTICS</span><small>Online Customs Clearance · TIN: 110993306</small></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="nav-back">← Back to main site</a></li>
+    <li><a href="https://wa.me/250788405112" target="_blank" style="color:var(--green);font-weight:500;">+250 788 405 112</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero-strip">
+  <h1>Your customs tools,<br><span>all in one place</span></h1>
+  <p>Calculate your import duties instantly, then submit your clearance file — without leaving this page.</p>
+  <div class="tab-switcher">
+    <button class="tab-btn active" onclick="switchTab('calc', this)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:6px"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>
+      Duty Calculator
+    </button>
+    <button class="tab-btn" onclick="switchTab('form', this)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:6px"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Submit a File
+    </button>
+  </div>
+  <div style="margin-top:16px;display:inline-flex;align-items:center;gap:8px;background:rgba(240,188,90,0.15);border:1px solid rgba(240,188,90,0.4);border-radius:8px;padding:8px 16px;">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F0BC5A" stroke-width="2" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <span style="font-size:12px;color:rgba(255,255,255,0.65);">Results are <strong style="color:#F0BC5A;">indicative estimates only</strong> — final duties are assessed by RRA at time of filing.</span>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- ═══════════════════════════════════════════
+       PANEL 1: DUTY CALCULATOR
+  ══════════════════════════════════════════════ -->
+  <div class="panel active" id="panel-calc">
+    <div class="calc-card">
+      <div class="calc-header">
+        <div class="calc-header-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>
+        </div>
+        <div>
+          <h2>Rwanda Import Duty Calculator</h2>
+          <p>Instant estimate — RRA tariff schedule + EAC rates &nbsp;·&nbsp; <strong style="color:var(--gold);">Indicative prices only</strong></p>
+        </div>
+      </div>
+      <div class="calc-body">
+        <div class="field-grid">
+          <div class="field">
+            <label>Product category</label>
+            <select id="cat" onchange="updateHSHint()">
+              <option value="">— Select a category —</option>
+              <optgroup label="Electronics & IT">
+                <option value="8471" data-rate="0" data-vat="18" data-label="Computers & IT equipment">Computers & IT equipment (HS 8471)</option>
+                <option value="8517" data-rate="25" data-vat="18" data-label="Mobile phones">Mobile phones (HS 8517)</option>
+                <option value="8528" data-rate="25" data-vat="18" data-label="Televisions & monitors">Televisions & monitors (HS 8528)</option>
+                <option value="8544" data-rate="10" data-vat="18" data-label="Electrical cables">Electrical cables (HS 8544)</option>
+              </optgroup>
+              <optgroup label="Clothing & Textiles">
+                <option value="6109" data-rate="25" data-vat="18" data-label="T-shirts & jerseys">T-shirts & jerseys (HS 6109)</option>
+                <option value="6203" data-rate="25" data-vat="18" data-label="Men's suits & trousers">Men's suits & trousers (HS 6203)</option>
+                <option value="6204" data-rate="25" data-vat="18" data-label="Women's clothing">Women's clothing (HS 6204)</option>
+                <option value="6403" data-rate="25" data-vat="18" data-label="Footwear">Footwear (HS 6403)</option>
+              </optgroup>
+              <optgroup label="Food & Beverages">
+                <option value="1901" data-rate="25" data-vat="18" data-label="Food preparations">Food preparations (HS 1901)</option>
+                <option value="2009" data-rate="25" data-vat="18" data-label="Fruit juices">Fruit juices (HS 2009)</option>
+                <option value="2106" data-rate="25" data-vat="18" data-label="Food products NEC">Food products NEC (HS 2106)</option>
+              </optgroup>
+              <optgroup label="Machinery & Equipment">
+                <option value="8414" data-rate="10" data-vat="18" data-label="Pumps & compressors">Pumps & compressors (HS 8414)</option>
+                <option value="8421" data-rate="10" data-vat="18" data-label="Filtering machinery">Filtering machinery (HS 8421)</option>
+                <option value="8481" data-rate="10" data-vat="18" data-label="Industrial valves">Industrial valves (HS 8481)</option>
+                <option value="8701" data-rate="10" data-vat="18" data-label="Tractors">Tractors (HS 8701)</option>
+              </optgroup>
+              <optgroup label="Vehicles & Parts">
+                <option value="8703" data-rate="25" data-vat="18" data-label="Passenger vehicles">Passenger vehicles (HS 8703)</option>
+                <option value="8708" data-rate="25" data-vat="18" data-label="Vehicle parts">Vehicle parts (HS 8708)</option>
+              </optgroup>
+              <optgroup label="Construction & Hardware">
+                <option value="3917" data-rate="25" data-vat="18" data-label="Plastic pipes & fittings">Plastic pipes & fittings (HS 3917)</option>
+                <option value="7308" data-rate="10" data-vat="18" data-label="Steel structures">Steel structures (HS 7308)</option>
+                <option value="7318" data-rate="10" data-vat="18" data-label="Screws, bolts, nuts">Screws, bolts, nuts (HS 7318)</option>
+              </optgroup>
+              <optgroup label="Cosmetics & Personal Care">
+                <option value="3304" data-rate="25" data-vat="18" data-label="Cosmetics & beauty products">Cosmetics & beauty products (HS 3304)</option>
+                <option value="3305" data-rate="25" data-vat="18" data-label="Hair care products">Hair care products (HS 3305)</option>
+                <option value="3307" data-rate="25" data-vat="18" data-label="Perfumes & toiletries">Perfumes & toiletries (HS 3307)</option>
+              </optgroup>
+              <optgroup label="Paper & Packaging">
+                <option value="4819" data-rate="25" data-vat="18" data-label="Paper bags & packaging">Paper bags & packaging (HS 4819)</option>
+                <option value="4820" data-rate="25" data-vat="18" data-label="Notebooks & stationery">Notebooks & stationery (HS 4820)</option>
+              </optgroup>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Origin country</label>
+            <select id="origin">
+              <option value="eac">EAC (Kenya, Tanzania, Uganda, Burundi, DRC)</option>
+              <option value="comesa">COMESA (Ethiopia, Zambia, Zimbabwe…)</option>
+              <option value="eu" selected>European Union</option>
+              <option value="china">China</option>
+              <option value="usa">United States</option>
+              <option value="uae">UAE / Dubai</option>
+              <option value="india">India</option>
+              <option value="other">Other / Unknown</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>CIF value (USD)</label>
+            <input type="number" id="cifUSD" placeholder="e.g. 5000" min="1" oninput="syncCIF('usd')">
+          </div>
+
+          <div class="field">
+            <label>CIF value (RWF)</label>
+            <input type="number" id="cifRWF" placeholder="e.g. 6,750,000" min="1" oninput="syncCIF('rwf')">
+          </div>
+
+          <div class="field full">
+            <label>Transport mode</label>
+            <div class="radio-group">
+              <label class="radio-opt selected" id="ro-air" onclick="selectMode('air')">
+                <input type="radio" name="mode" value="air" checked>
+                <span class="ro-label">✈ Air</span>
+                <span class="ro-sub">Kigali Int'l Airport</span>
+              </label>
+              <label class="radio-opt" id="ro-sea" onclick="selectMode('sea')">
+                <input type="radio" name="mode" value="sea">
+                <span class="ro-label">🚢 Sea + Road</span>
+                <span class="ro-sub">Mombasa → Kigali</span>
+              </label>
+              <label class="radio-opt" id="ro-road" onclick="selectMode('road')">
+                <input type="radio" name="mode" value="road">
+                <span class="ro-label">🚛 Road</span>
+                <span class="ro-sub">EAC land border</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div id="hs-hint" class="hs-hint" style="margin-bottom:14px;display:none;"></div>
+
+        <button class="calc-btn" onclick="calculate()">
+          Calculate duties & taxes →
+        </button>
+
+        <!-- RESULTS -->
+        <div class="result-box" id="result-box">
+          <div class="result-header">
+            <span>Duty estimate</span>
+            <span class="result-ref" id="result-ref"></span>
+          </div>
+          <div class="result-body">
+            <div class="result-row">
+              <span class="label">CIF value</span>
+              <span class="val" id="r-cif"></span>
+            </div>
+            <div class="result-row">
+              <span class="label">Import duty rate</span>
+              <span class="val" id="r-rate"></span>
+            </div>
+            <div class="result-row">
+              <span class="label">Import duty amount</span>
+              <span class="val" id="r-duty"></span>
+            </div>
+            <div class="result-row">
+              <span class="label">VAT on import (18%)</span>
+              <span class="val" id="r-vat"></span>
+            </div>
+            <div class="result-row">
+              <span class="label">Infrastructure levy (1.5%)</span>
+              <span class="val" id="r-levy"></span>
+            </div>
+            <div class="result-row" id="r-eac-row" style="display:none;">
+              <span class="label">EAC/COMESA exemption applied</span>
+              <span class="val" style="color:var(--green);" id="r-eac"></span>
+            </div>
+            <div class="result-row">
+              <span class="label">RRA channel (indicative)</span>
+              <span class="val" id="r-channel"></span>
+            </div>
+          </div>
+          <div class="result-total">
+            <span class="tl">Total duties & taxes</span>
+            <span class="tv" id="r-total"></span>
+          </div>
+          <div class="result-warning" id="r-warning"></div>
+          <div class="result-cta">
+            <p><strong>Ready to file?</strong> Let us handle your declaration — we'll apply any exemptions and get your release notice fast.</p>
+            <a href="#" onclick="switchTab('form', null); window.scrollTo(0,0); return false;">
+              Submit my file →
+            </a>
+          </div>
+        </div>
+
+        <!-- INFO STRIP -->
+        <div class="info-strip">
+          <div class="info-item">
+            <h4>EAC Common External Tariff</h4>
+            <p>Rwanda applies 3 bands: 0% (raw materials & capital goods), 10% (intermediate goods), 25% (finished goods).</p>
+          </div>
+          <div class="info-item">
+            <h4>VAT on imports</h4>
+            <p>18% VAT applies on most imported goods (CIF + duty). Some food & medical items are exempt.</p>
+          </div>
+          <div class="info-item">
+            <h4>EAC & COMESA exemptions</h4>
+            <p>Goods from EAC or COMESA countries may qualify for 0% duty with a valid Certificate of Origin.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       PANEL 2: SUBMISSION FORM
+  ══════════════════════════════════════════════ -->
+  <div class="panel" id="panel-form">
+    <div class="form-card">
+      <div class="form-header">
+        <div style="width:36px;height:36px;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div>
+          <h2>Submit your customs file</h2>
+          <p>Fill in 3 quick steps — we'll contact you within 2 hours with your quote</p>
+        </div>
+      </div>
+
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:33%"></div></div>
+
+      <div class="form-steps">
+        <div class="form-step active" id="step-tab-1">
+          <div class="step-no">1</div>
+          Shipment info
+        </div>
+        <div class="form-step" id="step-tab-2">
+          <div class="step-no">2</div>
+          Documents
+        </div>
+        <div class="form-step" id="step-tab-3">
+          <div class="step-no">3</div>
+          Contact & review
+        </div>
+      </div>
+
+      <!-- STEP 1: Shipment info -->
+      <div class="form-section active" id="step-1">
+        <div class="section-title">Tell us about your shipment</div>
+        <div class="section-subtitle">Basic details about the goods you're importing or exporting.</div>
+
+        <div class="field-grid">
+          <div class="field">
+            <label>Declaration type</label>
+            <select id="f-type">
+              <option value="import">Import (bringing goods into Rwanda)</option>
+              <option value="export">Export (sending goods out of Rwanda)</option>
+              <option value="transit">Transit (goods passing through)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Origin / destination country</label>
+            <input type="text" id="f-country" placeholder="e.g. Belgium, China, UAE">
+          </div>
+          <div class="field">
+            <label>Description of goods</label>
+            <input type="text" id="f-goods" placeholder="e.g. Electronic components, clothing, machinery">
+          </div>
+          <div class="field">
+            <label>Approximate CIF value (USD)</label>
+            <input type="number" id="f-value" placeholder="e.g. 8500" min="0">
+          </div>
+          <div class="field">
+            <label>Transport mode</label>
+            <select id="f-transport">
+              <option value="air">Air freight (Kigali International Airport)</option>
+              <option value="sea">Sea + Road (via Mombasa)</option>
+              <option value="road">Road (land border)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Expected arrival date</label>
+            <input type="text" id="f-date" placeholder="e.g. 15 January 2025">
+          </div>
+          <div class="field full">
+            <label>Additional notes (optional)</label>
+            <textarea id="f-notes" rows="3" placeholder="Any special requirements, permits needed, EAC origin, etc."></textarea>
+          </div>
+        </div>
+
+        <div class="form-nav" style="padding:0;margin-top:8px;border:none;background:transparent;">
+          <div></div>
+          <button class="btn-next" onclick="goStep(2)">
+            Next: Documents
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 2: Documents -->
+      <div class="form-section" id="step-2">
+        <div class="section-title">Which documents do you have?</div>
+        <div class="section-subtitle">Check all documents you can provide. You'll send them to us via WhatsApp after submission.</div>
+
+        <div class="doc-checklist">
+          <label class="doc-check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="doc-invoice" checked>
+            <div style="flex:1">
+              <div class="doc-check-label">Commercial invoice</div>
+              <span class="doc-check-note">From your supplier, showing value and description</span>
+            </div>
+            <span class="doc-badge badge-req">Required</span>
+          </label>
+          <label class="doc-check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="doc-packing" checked>
+            <div style="flex:1">
+              <div class="doc-check-label">Packing list</div>
+              <span class="doc-check-note">Item breakdown, weights, dimensions</span>
+            </div>
+            <span class="doc-badge badge-req">Required</span>
+          </label>
+          <label class="doc-check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="doc-bl">
+            <div style="flex:1">
+              <div class="doc-check-label">Bill of Lading or Airway Bill</div>
+              <span class="doc-check-note">Shipping document from carrier</span>
+            </div>
+            <span class="doc-badge badge-req">Required</span>
+          </label>
+          <label class="doc-check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="doc-origin">
+            <div style="flex:1">
+              <div class="doc-check-label">Certificate of origin</div>
+              <span class="doc-check-note">Needed for EAC / COMESA / AfCFTA exemptions</span>
+            </div>
+            <span class="doc-badge badge-opt">Optional</span>
+          </label>
+          <label class="doc-check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="doc-permit">
+            <div style="flex:1">
+              <div class="doc-check-label">Import / export permit</div>
+              <span class="doc-check-note">For regulated goods (pharma, food, electronics)</span>
+            </div>
+            <span class="doc-badge badge-opt">If applicable</span>
+          </label>
+          <label class="doc-check-item" onclick="toggleCheck(this)">
+            <input type="checkbox" id="doc-insurance">
+            <div style="flex:1">
+              <div class="doc-check-label">Insurance certificate</div>
+              <span class="doc-check-note">Required for CIF valuation</span>
+            </div>
+            <span class="doc-badge badge-opt">If applicable</span>
+          </label>
+        </div>
+
+        <div style="background:#FEF3E2;border:1px solid #F5C97A;border-radius:8px;padding:12px 16px;font-size:12px;color:#7A4F00;line-height:1.6;margin-top:4px;">
+          <strong>Don't worry if you're missing some documents.</strong> After you submit, we'll tell you exactly what's needed for your specific shipment and help you obtain any missing paperwork.
+        </div>
+
+        <div class="form-nav" style="padding:0;margin-top:24px;border:none;background:transparent;">
+          <button class="btn-prev" onclick="goStep(1)">← Back</button>
+          <button class="btn-next" onclick="goStep(3)">
+            Next: Review & send
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 3: Contact & Review -->
+      <div class="form-section" id="step-3">
+        <div class="section-title">Your contact details & summary</div>
+        <div class="section-subtitle">We'll send your quote to this number. Check your details before sending.</div>
+
+        <div class="field-grid" style="margin-bottom:24px;">
+          <div class="field">
+            <label>Your full name</label>
+            <input type="text" id="f-name" placeholder="e.g. Jean-Paul Habimana">
+          </div>
+          <div class="field">
+            <label>WhatsApp number</label>
+            <input type="text" id="f-phone" placeholder="+250 7XX XXX XXX">
+          </div>
+          <div class="field">
+            <label>Company name (optional)</label>
+            <input type="text" id="f-company" placeholder="e.g. Kigali Electronics Ltd">
+          </div>
+          <div class="field">
+            <label>Email (optional)</label>
+            <input type="text" id="f-email" placeholder="you@company.rw">
+          </div>
+        </div>
+
+        <div class="section-title" style="font-size:14px;margin-bottom:12px;">Summary</div>
+        <div class="summary-grid" id="summary-grid">
+          <!-- filled by JS -->
+        </div>
+
+        <a id="whatsapp-link" href="#" target="_blank" class="whatsapp-submit" onclick="return buildWhatsApp()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.529 5.845L.057 23.522a.5.5 0 0 0 .617.63l5.796-1.516A11.955 11.955 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.9 0-3.679-.524-5.2-1.435l-.372-.221-3.862 1.011 1.03-3.752-.242-.386A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Send via WhatsApp to ACE POWER LOGISTICS
+        </a>
+        <p style="text-align:center;font-size:11px;color:var(--muted);margin-top:10px;">
+          This opens WhatsApp with a pre-filled message. Attach your documents in the same chat.
+        </p>
+
+        <div class="form-nav" style="padding:0;margin-top:20px;border:none;background:transparent;">
+          <button class="btn-prev" onclick="goStep(2)">← Back</button>
+          <div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+const RATE = 1350;
+
+// ─── TAB SWITCHER ───
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  else {
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      if ((tab === 'calc' && b.textContent.includes('Duty')) ||
+          (tab === 'form' && b.textContent.includes('Submit'))) b.classList.add('active');
+    });
+  }
+  document.getElementById('panel-' + tab).classList.add('active');
+}
+
+// ─── CALCULATOR ───
+function syncCIF(source) {
+  const usd = document.getElementById('cifUSD');
+  const rwf = document.getElementById('cifRWF');
+  if (source === 'usd' && usd.value) rwf.value = Math.round(usd.value * RATE);
+  if (source === 'rwf' && rwf.value) usd.value = (rwf.value / RATE).toFixed(0);
+}
+
+function selectMode(m) {
+  ['air','sea','road'].forEach(id => document.getElementById('ro-'+id).classList.remove('selected'));
+  document.getElementById('ro-'+m).classList.add('selected');
+}
+
+function updateHSHint() {
+  const sel = document.getElementById('cat');
+  const opt = sel.options[sel.selectedIndex];
+  const hint = document.getElementById('hs-hint');
+  if (opt.value) {
+    hint.style.display = 'block';
+    hint.innerHTML = `HS Code <strong>${opt.value}</strong> — ${opt.dataset.label}. Import duty rate: <strong>${opt.dataset.rate}%</strong>. <a href="https://rwandatrade.rw" target="_blank">Verify on Rwanda Trade Portal ↗</a>`;
+  } else {
+    hint.style.display = 'none';
+  }
+}
+
+function fmt(n) { return '$' + Math.round(n).toLocaleString() + ' <small>RWF ' + Math.round(n * RATE).toLocaleString() + '</small>'; }
+
+function calculate() {
+  const sel = document.getElementById('cat');
+  const opt = sel.options[sel.selectedIndex];
+  const cif = parseFloat(document.getElementById('cifUSD').value);
+  const origin = document.getElementById('origin').value;
+
+  if (!opt.value) { alert('Please select a product category.'); return; }
+  if (!cif || cif <= 0) { alert('Please enter a CIF value.'); return; }
+
+  let dutyRate = parseInt(opt.dataset.rate);
+  let eacDiscount = 0;
+  let eacNote = '';
+
+  if (origin === 'eac') {
+    eacDiscount = dutyRate;
+    dutyRate = 0;
+    eacNote = '100% duty exemption (EAC Common Market)';
+  } else if (origin === 'comesa') {
+    eacDiscount = Math.round(dutyRate * 0.6 * 10) / 10;
+    dutyRate = Math.round(dutyRate * 0.4 * 10) / 10;
+    eacNote = '60% duty reduction (COMESA Protocol)';
+  }
+
+  const duty = cif * (dutyRate / 100);
+  const levy = cif * 0.015;
+  const vatBase = cif + duty + levy;
+  const vat = vatBase * 0.18;
+  const total = duty + levy + vat;
+
+  // Channel
+  let channel, channelClass;
+  if (cif < 500) { channel = 'Green (auto-cleared)'; channelClass = 'ch-green'; }
+  else if (cif < 5000 && dutyRate <= 10) { channel = 'Green (low risk)'; channelClass = 'ch-green'; }
+  else if (cif > 20000 || dutyRate === 25) { channel = 'Yellow or Red (doc check likely)'; channelClass = 'ch-yellow'; }
+  else { channel = 'Green (standard)'; channelClass = 'ch-green'; }
+
+  // Populate results
+  document.getElementById('r-cif').innerHTML = fmt(cif);
+  document.getElementById('r-rate').textContent = dutyRate + '%' + (eacDiscount > 0 ? ` (reduced from ${dutyRate + eacDiscount}%)` : '');
+  document.getElementById('r-duty').innerHTML = fmt(duty);
+  document.getElementById('r-vat').innerHTML = fmt(vat);
+  document.getElementById('r-levy').innerHTML = fmt(levy);
+
+  const eacRow = document.getElementById('r-eac-row');
+  if (eacDiscount > 0) {
+    eacRow.style.display = 'flex';
+    document.getElementById('r-eac').textContent = eacNote;
+  } else {
+    eacRow.style.display = 'none';
+  }
+
+  document.getElementById('r-channel').innerHTML = `<span class="ch-badge ${channelClass}">${channel}</span>`;
+  document.getElementById('r-total').innerHTML = `$${Math.round(total).toLocaleString()} <small>RWF ${Math.round(total * RATE).toLocaleString()}</small>`;
+  document.getElementById('result-ref').textContent = 'EST-' + Date.now().toString().slice(-6);
+
+  const warn = document.getElementById('r-warning');
+  warn.innerHTML = '<strong>Note:</strong> This is an estimate only. Final duties are assessed by RRA based on the actual CIF value at time of filing. Certain goods may attract additional levies. Our agent will confirm the exact amount before you pay.';
+
+  document.getElementById('result-box').classList.add('show');
+  document.getElementById('result-box').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ─── FORM STEPS ───
+let currentStep = 1;
+
+function goStep(n) {
+  document.getElementById('step-' + currentStep).classList.remove('active');
+  document.getElementById('step-tab-' + currentStep).classList.remove('active');
+  document.getElementById('step-tab-' + currentStep).classList.add('done');
+
+  currentStep = n;
+  document.getElementById('step-' + n).classList.add('active');
+  document.getElementById('step-tab-' + n).classList.add('active');
+  document.getElementById('progress-fill').style.width = (n / 3 * 100) + '%';
+
+  if (n === 3) buildSummary();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function toggleCheck(el) {
+  setTimeout(() => el.classList.toggle('checked', el.querySelector('input').checked), 10);
+}
+document.querySelectorAll('.doc-check-item').forEach(el => {
+  if (el.querySelector('input').checked) el.classList.add('checked');
+});
+
+function buildSummary() {
+  const items = [
+    ['Declaration type', document.getElementById('f-type').value],
+    ['Origin / destination', document.getElementById('f-country').value || '—'],
+    ['Goods', document.getElementById('f-goods').value || '—'],
+    ['CIF value', document.getElementById('f-value').value ? '$' + parseInt(document.getElementById('f-value').value).toLocaleString() : '—'],
+    ['Transport', document.getElementById('f-transport').value],
+    ['Arrival date', document.getElementById('f-date').value || '—'],
+  ];
+  const grid = document.getElementById('summary-grid');
+  grid.innerHTML = items.map(([l, v]) => `
+    <div class="summary-item">
+      <div class="s-label">${l}</div>
+      <div class="s-val">${v}</div>
+    </div>`).join('');
+}
+
+function buildWhatsApp() {
+  const name = document.getElementById('f-name').value || 'Client';
+  const phone = document.getElementById('f-phone').value;
+  const company = document.getElementById('f-company').value;
+  const type = document.getElementById('f-type').value;
+  const country = document.getElementById('f-country').value;
+  const goods = document.getElementById('f-goods').value;
+  const value = document.getElementById('f-value').value;
+  const transport = document.getElementById('f-transport').value;
+  const date = document.getElementById('f-date').value;
+  const notes = document.getElementById('f-notes').value;
+
+  const docs = [];
+  if (document.getElementById('doc-invoice').checked) docs.push('Commercial invoice');
+  if (document.getElementById('doc-packing').checked) docs.push('Packing list');
+  if (document.getElementById('doc-bl').checked) docs.push('B/L or Airway Bill');
+  if (document.getElementById('doc-origin').checked) docs.push('Certificate of origin');
+  if (document.getElementById('doc-permit').checked) docs.push('Import permit');
+  if (document.getElementById('doc-insurance').checked) docs.push('Insurance certificate');
+
+  let msg = `Hello ACE POWER LOGISTICS,\n\n`;
+  msg += `I would like to submit a customs declaration file.\n\n`;
+  msg += `*SHIPMENT DETAILS*\n`;
+  msg += `• Name: ${name}${company ? ' — ' + company : ''}\n`;
+  if (phone) msg += `• Phone: ${phone}\n`;
+  msg += `• Type: ${type}\n`;
+  msg += `• Origin/Destination: ${country || 'N/A'}\n`;
+  msg += `• Goods: ${goods || 'N/A'}\n`;
+  if (value) msg += `• CIF value: $${parseInt(value).toLocaleString()}\n`;
+  msg += `• Transport: ${transport}\n`;
+  if (date) msg += `• Expected arrival: ${date}\n`;
+  msg += `\n*DOCUMENTS AVAILABLE*\n`;
+  msg += docs.map(d => `• ${d}`).join('\n');
+  if (notes) msg += `\n\n*NOTES*\n${notes}`;
+  msg += `\n\nPlease confirm receipt and send me a quote. Thank you.`;
+
+  const url = 'https://wa.me/250788405112?text=' + encodeURIComponent(msg);
+  document.getElementById('whatsapp-link').href = url;
+  return true;
+}
+</script>
+</body>
+</html>

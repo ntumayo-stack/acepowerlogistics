@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACE POWER LOGISTICS — Online Customs Clearance · Kigali, Rwanda</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #1A6B45;
+    --green-light: #2A9D6A;
+    --green-pale: #E8F5EF;
+    --gold: #C9952A;
+    --gold-light: #F0BC5A;
+    --dark: #0D1F17;
+    --text: #1C3028;
+    --muted: #5A7A6A;
+    --border: #C8DDD4;
+    --white: #FAFCFB;
+    --surface: #F2F8F5;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--text); overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 48px;
+    background: rgba(250,252,251,0.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 16px; color: var(--green); letter-spacing: 0px; line-height: 1.2; }
+  .logo span { color: var(--gold); }
+  .logo small { display: block; font-size: 10px; font-weight: 400; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; }
+  nav ul { list-style: none; display: flex; gap: 32px; }
+  nav ul a { font-size: 14px; color: var(--muted); text-decoration: none; transition: color .2s; }
+  nav ul a:hover { color: var(--green); }
+  .nav-cta { background: var(--green); color: #fff !important; padding: 9px 20px; border-radius: 8px; font-weight: 500 !important; }
+  .nav-cta:hover { background: var(--green-light) !important; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr;
+    align-items: center; padding: 120px 48px 80px; gap: 64px;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: -200px; right: -200px;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(42,157,106,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--green-pale); border: 1px solid #A8D5BC;
+    border-radius: 100px; padding: 6px 14px;
+    font-size: 12px; font-weight: 500; color: var(--green);
+    margin-bottom: 28px; animation: fadeUp .6s ease both;
+  }
+  .badge-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green-light); animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.6;transform:scale(1.3)} }
+  h1 {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: clamp(36px, 4.5vw, 56px); line-height: 1.08; letter-spacing: -1.5px;
+    color: var(--dark); margin-bottom: 24px; animation: fadeUp .6s .1s ease both;
+  }
+  h1 em { font-style: normal; color: var(--green); }
+  .underline-gold { position: relative; white-space: nowrap; }
+  .underline-gold::after {
+    content: ''; position: absolute; left: 0; bottom: -4px; right: 0; height: 3px;
+    background: var(--gold-light); border-radius: 2px;
+  }
+  .hero-desc { font-size: 17px; font-weight: 300; line-height: 1.7; color: var(--muted); max-width: 480px; margin-bottom: 40px; animation: fadeUp .6s .2s ease both; }
+  .hero-actions { display: flex; gap: 16px; align-items: center; animation: fadeUp .6s .3s ease both; }
+  .btn-primary {
+    background: var(--green); color: #fff; padding: 14px 28px; border-radius: 10px;
+    font-size: 15px; font-weight: 500; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px; transition: background .2s, transform .15s;
+  }
+  .btn-primary:hover { background: var(--green-light); transform: translateY(-1px); }
+  .btn-secondary {
+    color: var(--green); font-size: 15px; font-weight: 500; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px;
+    border-bottom: 1.5px solid var(--green-pale); padding-bottom: 2px; transition: border-color .2s;
+  }
+  .btn-secondary:hover { border-color: var(--green); }
+
+  /* STATUS CARD */
+  .hero-visual { animation: fadeUp .6s .2s ease both; }
+  .status-card { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 28px; box-shadow: 0 4px 40px rgba(26,107,69,0.08); }
+  .status-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .status-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  .status-id { font-size: 12px; color: var(--muted); background: var(--surface); padding: 4px 10px; border-radius: 6px; }
+  .dossier-info { background: var(--surface); border-radius: 10px; padding: 16px; margin-bottom: 20px; }
+  .dossier-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; margin-bottom: 8px; }
+  .dossier-row:last-child { margin-bottom: 0; }
+  .dossier-label { color: var(--muted); }
+  .dossier-value { font-weight: 500; color: var(--text); }
+  .dossier-value.gold { color: var(--gold); }
+  .steps-track { margin-bottom: 20px; }
+  .step-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--surface); }
+  .step-item:last-child { border-bottom: none; }
+  .step-dot { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 11px; font-weight: 600; }
+  .step-dot.done { background: var(--green); color: #fff; }
+  .step-dot.active { background: #fff; border: 2px solid var(--green); color: var(--green); animation: ring 2s ease-in-out infinite; }
+  .step-dot.pending { background: var(--surface); color: var(--muted); border: 1.5px solid var(--border); }
+  @keyframes ring { 0%,100%{box-shadow:0 0 0 0 rgba(26,107,69,0.3)} 50%{box-shadow:0 0 0 6px rgba(26,107,69,0)} }
+  .step-label { font-size: 13px; flex: 1; }
+  .step-label.done { color: var(--muted); text-decoration: line-through; }
+  .step-label.active { font-weight: 500; color: var(--green); }
+  .step-label.pending { color: var(--border); }
+  .step-time { font-size: 11px; color: var(--muted); }
+  .canal-badge { display: inline-flex; align-items: center; gap: 6px; background: #E8F5EF; border: 1px solid #A8D5BC; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; color: var(--green); }
+
+  /* STATS */
+  .stats-bar { background: var(--dark); padding: 24px 48px; display: flex; }
+  .stat-item { flex: 1; padding: 0 32px; text-align: center; border-right: 1px solid rgba(255,255,255,0.08); }
+  .stat-item:first-child { padding-left: 0; }
+  .stat-item:last-child { border-right: none; }
+  .stat-num { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; color: var(--gold-light); letter-spacing: -1px; }
+  .stat-label { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 4px; }
+
+  /* SECTIONS */
+  .section { padding: 96px 48px; }
+  .section-label { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--green); margin-bottom: 12px; }
+  h2 { font-family: 'Syne', sans-serif; font-size: clamp(28px, 3.5vw, 42px); font-weight: 800; letter-spacing: -1px; color: var(--dark); margin-bottom: 16px; line-height: 1.1; }
+  .section-desc { font-size: 16px; font-weight: 300; color: var(--muted); max-width: 520px; line-height: 1.7; margin-bottom: 56px; }
+
+  /* HOW IT WORKS */
+  .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; }
+  .steps-grid::before { content: ''; position: absolute; top: 28px; left: 10%; right: 10%; height: 1px; background: linear-gradient(to right, transparent, var(--border), var(--border), transparent); z-index: 0; }
+  .how-step { text-align: center; padding: 0 16px; position: relative; z-index: 1; }
+  .step-num { width: 56px; height: 56px; border-radius: 50%; background: var(--white); border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 18px; color: var(--green); margin: 0 auto 20px; }
+  .how-step:first-child .step-num { background: var(--green); color: #fff; border-color: var(--green); }
+  .step-h { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; margin-bottom: 8px; color: var(--dark); }
+  .step-p { font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.6; }
+
+  /* PRICING */
+  .pricing-section { background: var(--surface); }
+
+  .currency-toggle {
+    display: inline-flex; border: 1.5px solid var(--border);
+    border-radius: 10px; overflow: hidden; margin-bottom: 40px;
+  }
+  .currency-btn {
+    padding: 8px 22px; font-size: 13px; font-weight: 500;
+    background: transparent; border: none; cursor: pointer;
+    color: var(--muted); transition: .2s; font-family: 'DM Sans', sans-serif;
+  }
+  .currency-btn.active { background: var(--green); color: #fff; }
+
+  .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 960px; }
+  .price-card { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 28px; transition: transform .2s, box-shadow .2s; }
+  .price-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(26,107,69,0.1); }
+  .price-card.featured { border-color: var(--green); border-width: 1.5px; background: linear-gradient(160deg, #fff 60%, var(--green-pale)); }
+  .featured-tag { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--green); background: var(--green-pale); padding: 4px 10px; border-radius: 20px; display: inline-block; margin-bottom: 16px; }
+  .price-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 18px; color: var(--dark); margin-bottom: 6px; }
+  .price-desc { font-size: 13px; color: var(--muted); margin-bottom: 20px; line-height: 1.5; }
+
+  .price-main { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 30px; color: var(--dark); letter-spacing: -1px; line-height: 1.15; }
+  .price-sub { font-size: 16px; color: var(--muted); font-weight: 400; }
+  .price-rwf { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 14px; color: var(--green); margin-top: 4px; display: none; }
+  body.show-rwf .price-rwf { display: block; }
+
+  .price-note { font-size: 12px; color: var(--muted); margin: 6px 0 24px; }
+  .price-features { list-style: none; margin-bottom: 28px; }
+  .price-features li { font-size: 13px; color: var(--text); padding: 7px 0; border-bottom: 1px solid var(--surface); display: flex; align-items: center; gap: 8px; }
+  .price-features li::before { content: '✓'; color: var(--green); font-weight: 600; flex-shrink: 0; }
+  .btn-card { display: block; text-align: center; padding: 12px; border-radius: 8px; font-size: 14px; font-weight: 500; text-decoration: none; transition: .2s; }
+  .btn-card-outline { border: 1.5px solid var(--green); color: var(--green); }
+  .btn-card-outline:hover { background: var(--green-pale); }
+  .btn-card-filled { background: var(--green); color: #fff; }
+  .btn-card-filled:hover { background: var(--green-light); }
+  .price-note-global { margin-top: 24px; font-size: 12px; color: var(--muted); }
+
+  /* DOCS */
+  .docs-section { background: var(--white); }
+  .docs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  .doc-list { display: flex; flex-direction: column; gap: 12px; }
+  .doc-item { display: flex; align-items: flex-start; gap: 14px; background: var(--surface); border-radius: 10px; padding: 16px; border: 1px solid transparent; transition: border-color .2s; }
+  .doc-item:hover { border-color: var(--border); }
+  .doc-icon { width: 36px; height: 36px; border-radius: 8px; background: var(--green-pale); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .doc-name { font-size: 14px; font-weight: 500; color: var(--dark); margin-bottom: 2px; }
+  .doc-note { font-size: 12px; color: var(--muted); }
+  .doc-req { font-size: 10px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; margin-left: auto; flex-shrink: 0; }
+  .req-always { background: #FEF3E2; color: #A56B00; }
+  .req-sometimes { background: var(--green-pale); color: var(--green); }
+  .info-box { background: var(--dark); color: #fff; border-radius: 16px; padding: 36px; }
+  .info-box h3 { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; margin-bottom: 16px; color: var(--gold-light); letter-spacing: -0.5px; }
+  .info-box p { font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.6); margin-bottom: 20px; }
+  .info-point { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 12px; }
+  .info-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold-light); margin-top: 6px; flex-shrink: 0; }
+  .info-point span { font-size: 13px; color: rgba(255,255,255,0.75); line-height: 1.6; }
+
+  /* CTA */
+  .cta-section { background: var(--green); padding: 80px 48px; text-align: center; }
+  .cta-section h2 { color: #fff; margin-bottom: 16px; }
+  .cta-section p { color: rgba(255,255,255,0.7); font-size: 16px; margin-bottom: 36px; font-weight: 300; }
+  .btn-white { background: #fff; color: var(--green); padding: 16px 36px; border-radius: 10px; font-size: 15px; font-weight: 600; text-decoration: none; display: inline-block; transition: .2s; }
+  .btn-white:hover { background: var(--green-pale); transform: translateY(-2px); }
+
+  /* FOOTER */
+  footer { background: var(--dark); padding: 40px 48px; display: flex; justify-content: space-between; align-items: center; }
+  .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 16px; color: #fff; line-height: 1.2; }
+  .footer-logo span { color: var(--gold-light); }
+  .footer-logo small { display: block; font-size: 10px; font-weight: 400; color: rgba(255,255,255,0.35); letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
+  footer p { font-size: 12px; color: rgba(255,255,255,0.3); }
+  footer nav { display: flex; gap: 24px; }
+  footer nav a { font-size: 12px; color: rgba(255,255,255,0.4); text-decoration: none; }
+  footer nav a:hover { color: rgba(255,255,255,0.8); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; padding: 100px 24px 60px; }
+    .hero-visual { display: none; }
+    .stats-bar { padding: 24px; flex-wrap: wrap; }
+    .stat-item { min-width: 50%; padding: 12px 0; }
+    .section { padding: 60px 24px; }
+    .steps-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .docs-grid { grid-template-columns: 1fr; }
+    nav { padding: 16px 24px; }
+    nav ul { display: none; }
+    footer { flex-direction: column; gap: 20px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
+    <img src="data:image/png;base64,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" alt="ACE Power Logistics logo" style="height:48px;width:auto;object-fit:contain;">
+    <div class="logo">ACE POWER <span>LOGISTICS</span> <small>Online Customs Clearance · TIN: 110993306</small></div>
+  </a>
+  <ul>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="tools.html" style="color:var(--green);font-weight:500;">Duty Calculator</a></li>
+    <li><a href="https://tuumiza.com" target="_blank" style="color:var(--gold);font-weight:500;">Order from Europe ↗</a></li>
+    <li><a href="https://wa.me/250788405112" target="_blank" class="nav-cta">WhatsApp us</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <div class="hero-badge">
+      <div class="badge-dot"></div>
+      Licensed by RRA — Rwanda Revenue Authority
+    </div>
+    <h1>
+      Clear your<br>
+      goods through<br>
+      customs <em><span class="underline-gold">online</span></em>,<br>
+      from Kigali
+    </h1>
+    <p class="hero-desc">
+      Submit your file, track your clearance in real time, 
+      and get your release notice — fast, transparent, stress-free.
+    </p>
+    <div class="hero-actions">
+      <a href="tools.html" class="btn-primary">
+        Calculate duties &amp; submit
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#how" class="btn-secondary">
+        See how it works
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="status-card">
+      <div class="status-header">
+        <div class="status-title">File tracking</div>
+        <div class="status-id">REF-2024-00847</div>
+      </div>
+      <div class="dossier-info">
+        <div class="dossier-row">
+          <span class="dossier-label">Goods</span>
+          <span class="dossier-value">IT Equipment</span>
+        </div>
+        <div class="dossier-row">
+          <span class="dossier-label">CIF value</span>
+          <span class="dossier-value">$4,800 · RWF 6,480,000</span>
+        </div>
+        <div class="dossier-row">
+          <span class="dossier-label">Duties calculated</span>
+          <span class="dossier-value gold">$612 · RWF 826,200</span>
+        </div>
+        <div class="dossier-row">
+          <span class="dossier-label">RRA channel</span>
+          <span class="canal-badge"><span style="width:6px;height:6px;border-radius:50%;background:#1A6B45;display:inline-block"></span>Green channel</span>
+        </div>
+      </div>
+      <div class="steps-track">
+        <div class="step-item">
+          <div class="step-dot done">✓</div>
+          <div class="step-label done">Documents received</div>
+          <div class="step-time">9:14 am</div>
+        </div>
+        <div class="step-item">
+          <div class="step-dot done">✓</div>
+          <div class="step-label done">Verification &amp; quote</div>
+          <div class="step-time">10:02 am</div>
+        </div>
+        <div class="step-item">
+          <div class="step-dot done">✓</div>
+          <div class="step-label done">Payment confirmed</div>
+          <div class="step-time">10:45 am</div>
+        </div>
+        <div class="step-item">
+          <div class="step-dot active">→</div>
+          <div class="step-label active">Filing in progress (ASCYCUDA)</div>
+          <div class="step-time">In progress</div>
+        </div>
+        <div class="step-item">
+          <div class="step-dot pending">5</div>
+          <div class="step-label pending">Release notice (BAE)</div>
+          <div class="step-time"></div>
+        </div>
+      </div>
+      <div style="text-align:center;font-size:12px;color:var(--muted);">
+        Estimated release in <strong style="color:var(--green)">~4 hours</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-num">24h</div>
+    <div class="stat-label">Average green channel lead time</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">100%</div>
+    <div class="stat-label">Fully online process</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">EAC</div>
+    <div class="stat-label">Exemptions handled</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">RRA</div>
+    <div class="stat-label">Licensed customs agent</div>
+  </div>
+</div>
+
+<!-- TOOLS BANNER -->
+<section style="background:var(--green-pale);border-bottom:1px solid var(--border);padding:32px 48px;">
+  <div style="max-width:960px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;">
+    <div style="display:flex;align-items:center;gap:16px;">
+      <div style="width:48px;height:48px;background:var(--green);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>
+      </div>
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:var(--dark);">Free duty calculator + online file submission</div>
+        <div style="font-size:13px;color:var(--muted);margin-top:2px;">Calculate your Rwanda import duties instantly, then submit your customs file — all in one place.</div>
+      </div>
+    </div>
+    <a href="tools.html" style="display:inline-flex;align-items:center;gap:8px;background:var(--green);color:#fff;padding:12px 24px;border-radius:10px;font-size:14px;font-weight:500;text-decoration:none;white-space:nowrap;flex-shrink:0;transition:.2s;" onmouseover="this.style.background='#2A9D6A'" onmouseout="this.style.background='var(--green)'">
+      Open the tools
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how">
+  <div class="section-label">Process</div>
+  <h2>Done in 4 simple steps</h2>
+  <p class="section-desc">
+    From document submission to collecting your goods — we handle everything. You track every step in real time.
+  </p>
+  <div class="steps-grid">
+    <div class="how-step">
+      <div class="step-num">1</div>
+      <div class="step-h">Submit your documents</div>
+      <p class="step-p">Commercial invoice, packing list, bill of lading or airway bill — uploaded directly from your phone.</p>
+    </div>
+    <div class="how-step">
+      <div class="step-num">2</div>
+      <div class="step-h">Receive your quote</div>
+      <p class="step-p">We calculate your RRA duties, 18% VAT, and any EAC or AfCFTA exemptions you qualify for. Quote within 2 hours.</p>
+    </div>
+    <div class="how-step">
+      <div class="step-num">3</div>
+      <div class="step-h">Pay online</div>
+      <p class="step-p">MTN MoMo, Airtel Money, or bank transfer. Secure payment with instant confirmation.</p>
+    </div>
+    <div class="how-step">
+      <div class="step-num">4</div>
+      <div class="step-h">Get your release notice</div>
+      <p class="step-p">We file on ASCYCUDA and send you the BAE the moment RRA grants clearance.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="section pricing-section" id="pricing">
+  <div class="section-label">Pricing</div>
+  <h2>Clear prices, no surprises</h2>
+  <p class="section-desc">
+    Every shipment is different. Our fees reflect the real complexity of your operation.
+  </p>
+
+  <div class="currency-toggle">
+    <button class="currency-btn active" onclick="setCurrency('usd', this)">USD ($)</button>
+    <button class="currency-btn" onclick="setCurrency('rwf', this)">RWF (RWF)</button>
+  </div>
+
+  <div class="pricing-grid">
+    <!-- Standard -->
+    <div class="price-card">
+      <div class="price-name">Standard declaration</div>
+      <div class="price-desc">Straightforward import, green channel, single supplier, unrestricted goods.</div>
+      <div class="price-main">$25 <span class="price-sub">– $40</span></div>
+      <div class="price-rwf">RWF 33,750 – RWF 54,000</div>
+      <div class="price-note">per file</div>
+      <ul class="price-features">
+        <li>Single supplier invoice</li>
+        <li>Duties &amp; VAT calculation included</li>
+        <li>Real-time file tracking</li>
+        <li>BAE sent by email &amp; SMS</li>
+      </ul>
+      <a href="tools.html" class="btn-card btn-card-outline">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline;vertical-align:middle;margin-right:6px"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        Submit my file
+      </a>
+    </div>
+
+    <!-- Complex -->
+    <div class="price-card featured">
+      <div class="featured-tag">Most requested</div>
+      <div class="price-name">Complex declaration</div>
+      <div class="price-desc">Suspensive regimes, EAC/AfCFTA exemptions, goods requiring special permits.</div>
+      <div class="price-main">$60 <span class="price-sub">– $120</span></div>
+      <div class="price-rwf">RWF 81,000 – RWF 162,000</div>
+      <div class="price-note">per file</div>
+      <ul class="price-features">
+        <li>Bonded warehouse &amp; transit regimes</li>
+        <li>Special permit management</li>
+        <li>COMESA / AfCFTA exemptions</li>
+        <li>Customs advisory included</li>
+        <li>Priority processing</li>
+      </ul>
+      <a href="tools.html" class="btn-card btn-card-filled">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline;vertical-align:middle;margin-right:6px"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        Submit my file
+      </a>
+    </div>
+
+    <!-- Monthly -->
+    <div class="price-card">
+      <div class="price-name">SME monthly plan</div>
+      <div class="price-desc">For businesses with regular import or export flows who need a reliable partner.</div>
+      <div class="price-main">$200 <span class="price-sub">/mo</span></div>
+      <div class="price-rwf">RWF 270,000 /month</div>
+      <div class="price-note">up to 8 files included</div>
+      <ul class="price-features">
+        <li>Unlimited files (fair use)</li>
+        <li>Dedicated customs advisor</li>
+        <li>Monthly customs report</li>
+        <li>EAC regulatory monitoring</li>
+      </ul>
+      <a href="tools.html" class="btn-card btn-card-outline">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline;vertical-align:middle;margin-right:6px"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        Submit my file
+      </a>
+    </div>
+  </div>
+
+  <p class="price-note-global">
+    RWF prices are indicative, based on 1 USD = 1,350 RWF. All prices excl. taxes. Customs duties &amp; RRA fees are billed separately.
+  </p>
+</section>
+
+<!-- DOCUMENTS -->
+<section class="section docs-section" id="documents">
+  <div class="docs-grid">
+    <div>
+      <div class="section-label">Required documents</div>
+      <h2>What we need from you</h2>
+      <p class="section-desc">
+        Prepare these documents before submitting your file. Everything is done online — no need to visit an office.
+      </p>
+      <div class="doc-list">
+        <div class="doc-item">
+          <div class="doc-icon">📄</div>
+          <div>
+            <div class="doc-name">Commercial invoice</div>
+            <div class="doc-note">From the supplier, showing CIF or FOB value in detail</div>
+          </div>
+          <span class="doc-req req-always">Required</span>
+        </div>
+        <div class="doc-item">
+          <div class="doc-icon">📦</div>
+          <div>
+            <div class="doc-name">Packing list</div>
+            <div class="doc-note">Item breakdown with weights and dimensions per package</div>
+          </div>
+          <span class="doc-req req-always">Required</span>
+        </div>
+        <div class="doc-item">
+          <div class="doc-icon">🚢</div>
+          <div>
+            <div class="doc-name">Bill of Lading or Airway Bill</div>
+            <div class="doc-note">Depending on transport mode — sea, air, or road</div>
+          </div>
+          <span class="doc-req req-always">Required</span>
+        </div>
+        <div class="doc-item">
+          <div class="doc-icon">🌍</div>
+          <div>
+            <div class="doc-name">Certificate of origin</div>
+            <div class="doc-note">Needed to claim EAC, COMESA or AfCFTA duty exemptions</div>
+          </div>
+          <span class="doc-req req-sometimes">If exemption</span>
+        </div>
+        <div class="doc-item">
+          <div class="doc-icon">🔒</div>
+          <div>
+            <div class="doc-name">Import permit</div>
+            <div class="doc-note">Pharmaceuticals, food products, electronics, chemicals</div>
+          </div>
+          <span class="doc-req req-sometimes">Product-specific</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <h3>Why use a licensed customs agent?</h3>
+      <p>RRA requires all customs declarations to be filed by a licensed agent. Misclassification or undervaluation errors carry severe financial penalties.</p>
+      <div class="info-point">
+        <div class="info-dot"></div>
+        <span>We assign the correct HS code to every item — one mistake can cost 10× the price of this service.</span>
+      </div>
+      <div class="info-point">
+        <div class="info-dot"></div>
+        <span>We automatically identify EAC, AfCFTA and COMESA exemptions you are entitled to.</span>
+      </div>
+      <div class="info-point">
+        <div class="info-dot"></div>
+        <span>In red-channel cases, we manage the physical inspection and respond to RRA on your behalf.</span>
+      </div>
+      <div class="info-point">
+        <div class="info-dot"></div>
+        <span>You keep a full history of all your clearance files — useful for audits and accounting.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TUUMIZA CROSS-PROMO -->
+<section style="background:var(--dark);padding:72px 48px;">
+  <div style="max-width:960px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;">
+    <div>
+      <div style="font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold-light);margin-bottom:12px;">Our sister service</div>
+      <h2 style="color:#fff;margin-bottom:16px;letter-spacing:-1px;">Want to order products<br>from Europe?</h2>
+      <p style="font-size:16px;font-weight:300;color:rgba(255,255,255,0.6);line-height:1.7;margin-bottom:32px;">
+        ACE POWER LOGISTICS partners with <strong style="color:var(--gold-light);font-weight:500;">Tuumiza</strong> — a personal shopping service that sources any product from Europe and delivers it straight to Kigali. Electronics, fashion, cosmetics, professional equipment — if it's sold in Europe, Tuumiza can get it for you.
+      </p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:32px;">
+        <span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:6px 14px;font-size:12px;color:rgba(255,255,255,0.7);">Belgium · France · Germany</span>
+        <span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:6px 14px;font-size:12px;color:rgba(255,255,255,0.7);">Delivered to Kigali</span>
+        <span style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:6px 14px;font-size:12px;color:rgba(255,255,255,0.7);">Customs handled end-to-end</span>
+      </div>
+      <a href="https://tuumiza.com" target="_blank" style="display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:#fff;padding:14px 28px;border-radius:10px;font-size:15px;font-weight:500;text-decoration:none;transition:.2s;" onmouseover="this.style.background='#D9A030'" onmouseout="this.style.background='var(--gold)'">
+        Visit Tuumiza
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px;">
+      <div style="font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-bottom:20px;">How it works</div>
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div style="display:flex;gap:14px;align-items:flex-start;">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:13px;color:#fff;flex-shrink:0;">1</div>
+          <div>
+            <div style="font-size:14px;font-weight:500;color:#fff;margin-bottom:3px;">Tell us what you want</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.5;">Send a link, a photo, or a description of the product you're looking for.</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:14px;align-items:flex-start;">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:13px;color:#fff;flex-shrink:0;">2</div>
+          <div>
+            <div style="font-size:14px;font-weight:500;color:#fff;margin-bottom:3px;">Tuumiza sources &amp; ships it</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.5;">Our agents in Europe buy the item and consolidate it into a shipment.</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:14px;align-items:flex-start;">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:13px;color:#fff;flex-shrink:0;">3</div>
+          <div>
+            <div style="font-size:14px;font-weight:500;color:#fff;margin-bottom:3px;">We clear it through customs</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.5;">ACE POWER LOGISTICS handles the Rwanda customs declaration on arrival.</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:14px;align-items:flex-start;">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:13px;color:#fff;flex-shrink:0;">4</div>
+          <div>
+            <div style="font-size:14px;font-weight:500;color:#fff;margin-bottom:3px;">Delivered to your door in Kigali</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.5;">You receive your European product without leaving Rwanda.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Ready to clear your first shipment?</h2>
+  <p>Submit your file now. Quote delivered in under 2 hours.</p>
+  <a href="https://wa.me/250788405112?text=Hello%20ACE%20POWER%20LOGISTICS%2C%20I%20would%20like%20to%20submit%20a%20customs%20declaration%20file." target="_blank" class="btn-white">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:inline;vertical-align:middle;margin-right:8px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.529 5.845L.057 23.522a.5.5 0 0 0 .617.63l5.796-1.516A11.955 11.955 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.9 0-3.679-.524-5.2-1.435l-.372-.221-3.862 1.011 1.03-3.752-.242-.386A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+    Message us on WhatsApp
+  </a>
+  <p style="margin-top:24px;font-size:13px;color:rgba(255,255,255,0.6);">
+    Or call us directly: <a href="tel:+250788405112" style="color:#fff;font-weight:600;text-decoration:none;">+250 788 405 112</a>
+  </p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">ACE POWER <span>LOGISTICS</span><small>Online Customs Clearance</small></div>
+    <div style="font-size:11px;color:var(--gold-light);font-style:italic;margin-top:4px;">Only ACE Power Has The Answer ★</div>
+  </div>
+  <div style="text-align:center">
+    <p>Licensed customs agent — RRA · Kigali, Rwanda · TIN: 110993306 · © 2024</p>
+    <a href="https://wa.me/250788405112" target="_blank" style="color:var(--gold-light);font-size:14px;text-decoration:none;margin-top:4px;display:block;">+250 788 405 112 · WhatsApp</a>
+  </div>
+  <nav>
+    <a href="#">Terms</a>
+    <a href="#">Privacy</a>
+    <a href="tel:+250788405112">Contact</a>
+  </nav>
+</footer>
+
+<script>
+  function setCurrency(cur, btn) {
+    document.querySelectorAll('.currency-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.body.classList.toggle('show-rwf', cur === 'rwf');
+  }
+</script>
+</body>
+</html>
